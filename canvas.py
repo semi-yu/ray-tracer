@@ -25,7 +25,7 @@ class Canvas:
         ] * self._height)
 
     def write_pixel(self, row, col, color) -> None:
-        self._content[row][col] = color.arrayize()
+        self._content[col][row] = color.arrayize()
 
     def to_ppm(self):
         with open(self._filename, 'w') as f:
