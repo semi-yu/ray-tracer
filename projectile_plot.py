@@ -1,6 +1,6 @@
 import numpy as np
 
-from canvas import Canvas, Color
+from image.canvas import Canvas, Color
 from ch02.projectile import Projectile, Environment, tick
 
 
