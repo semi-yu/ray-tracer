@@ -7,7 +7,7 @@ from util.transformation import Transformation
 
 
 class Sphere:
-    def __init__(self, center: Point, radius: float):
+    def __init__(self, center: Point = Point(0, 0, 0), radius: float = 1.0):
         self._center = center
         self._radius = radius
 
@@ -17,9 +17,11 @@ class Sphere:
 
     def set_transform(self, transform):
         self._transform = transform
+        return self
 
     def set_material(self, material):
         self._material = material
+        return self
 
     @property
     def transform(self) -> Transformation:

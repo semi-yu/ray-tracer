@@ -25,7 +25,8 @@ class Canvas:
         self._content = np.array([[[0, 0, 0]] * self._width] * self._height)
 
     def write_pixel(self, row, col, color) -> None:
-        self._content[col][row] = color.arrayize()
+        r, g, b = map(lambda x: int(max(0.0, min(1.0, x)) * 255), color.arrayize())
+        self._content[col][row] = np.array([r, g, b])
 
     def to_ppm(self):
         with open(self._filename, "w") as f:

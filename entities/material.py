@@ -19,6 +19,9 @@ class Material:
     def set_color(self, color):
         self._color = color
 
+    def set_ambient(self, ambient):
+        self._ambient = ambient
+
     @property
     def color(self):
         return self._color

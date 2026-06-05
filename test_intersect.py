@@ -1,9 +1,11 @@
 import math
 
+from pytest import approx
 import numpy as np
 
 from util.mathematics import Point, Vector
 from entities.ray import Ray
+from intersect import prepare_computation
 from entities.sphere import Sphere
 from intersect import intersect, hit, Intersection
 
@@ -123,9 +125,45 @@ def test_hit_is_always_the_lowest_nonnegative_intersection():
     assert h is xpoints[3]
 
 
-if __name__ == "__main__":
-    test_ray_intersects_a_sphere_at_two_points()
-    test_ray_intersects_a_sphere_at_a_tangent()
-    test_ray_misses_a_sphere()
-    test_ray_originates_inside_a_sphere()
-    test_sphere_is_behind_a_ray()
+def test_precompute_the_state_of_an_intersection():
+    s = Sphere(Point(0, 0, 0), 1.0)
+
+    r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+
+    i = Intersection(4, s)
+
+    comps = prepare_computation(i, r)
+
+    assert comps.t == i.t
+    assert comps.object == i.object
+    assert comps.point.coord == approx(Point(0, 0, -1).coord)
+    assert comps.eye.coord == approx(Vector(0, 0, -1).coord)
+    assert comps.normal.coord == approx(Vector(0, 0, -1).coord)
+    assert comps.inside == False
+
+
+def test_the_hit_when_an_intersection_occurs_on_the_outside():
+    s = Sphere(Point(0, 0, 0), 1.0)
+
+    r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+
+    i = Intersection(4, s)
+
+    comps = prepare_computation(i, r)
+
+    assert comps.inside == False
+
+
+def test_the_hit_when_an_intersection_occurs_on_the_inside():
+    s = Sphere(Point(0, 0, 0), 1.0)
+
+    r = Ray(Point(0, 0, 0), Vector(0, 0, 1))
+
+    i = Intersection(1, s)
+
+    comps = prepare_computation(i, r)
+
+    assert comps.point.coord == approx(Point(0, 0, 1).coord)
+    assert comps.eye.coord == approx(Vector(0, 0, -1).coord)
+    assert comps.inside == True
+    assert comps.normal.coord == approx(Vector(0, 0, -1).coord)

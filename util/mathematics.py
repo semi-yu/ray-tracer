@@ -7,6 +7,7 @@ class Quadruple:
 
     def set_coord(self, coord):
         self._coord = coord
+        return self
 
     @property
     def coord(self):
@@ -16,6 +17,16 @@ class Quadruple:
 class Vector(Quadruple):
     def __init__(self, x=0, y=0, z=0):
         super().__init__(x, y, z, 0)
+
+    def normalize(self):
+        mag = np.linalg.norm(self._coord)
+
+        new_coord = self._coord.copy()
+
+        result = Vector()
+        result.set_coord(new_coord / mag)
+
+        return result
 
 
 class Point(Quadruple):

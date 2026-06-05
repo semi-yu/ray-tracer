@@ -51,6 +51,17 @@ def hit(xpoints: list[Intersection]):
     return min(nonnegatives, key=lambda x: x.t, default=None)
 
 
+def intersect_world(world, ray) -> list[Intersection]:
+    result = []
+
+    for object in world.objects:
+        result += intersect(object, ray)
+
+    result.sort(key=lambda s: s.t)
+
+    return result
+
+
 class Computation:
     def __init__(self, t, object, point, eye, normal, inside):
         self._t = t

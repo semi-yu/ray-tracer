@@ -28,3 +28,10 @@ def transform(ray: Ray, transform_matrix: Transformation) -> Ray:
     nray = Ray(origin, direction)
 
     return nray
+
+
+def position(ray, t):
+    result = Point()
+    result.set_coord(ray.origin.coord + t * ray.direction.coord)
+
+    return result

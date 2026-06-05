@@ -25,9 +25,7 @@ def main():
     sphere_origin = Point(0, 0, 0)
     sphere = Sphere(sphere_origin, 1.0)
 
-    transform = Transformation() \
-                .shear(1, 0, 0, 0, 0, 0) \
-                .scale(0.5, 1, 1)
+    transform = Transformation().shear(1, 0, 0, 0, 0, 0).scale(0.5, 1, 1)
 
     sphere.set_transform(transform)
 
