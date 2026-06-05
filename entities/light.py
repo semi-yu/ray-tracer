@@ -49,3 +49,9 @@ def lighting(material, light, position, eye, normal) -> Color:
     result.set_coord(ambient + diffuse + specular)
 
     return result
+
+
+def shade_hit(world, comps) -> Color:
+    return lighting(
+        comps.object.material, world.light, comps.point, comps.eye, comps.normal
+    )
