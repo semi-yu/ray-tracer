@@ -2,10 +2,11 @@ import math
 
 from pytest import approx
 
-from util.mathematics import Point, Vector
+from util.mathematics import Point, Vector, EPSILON
 from entities.ray import Ray
 from entities.sphere import Sphere
 from intersect import intersect, Intersection
+from util.transformation import Transformation
 
 from computation import prepare_computation
 from shadow import hit
@@ -168,3 +169,18 @@ def test_the_hit_when_an_intersection_occurs_on_the_inside():
     assert comps.eye.coord == approx(Vector(0, 0, -1).coord)
     assert comps.inside == True
     assert comps.normal.coord == approx(Vector(0, 0, -1).coord)
+
+def test_the_hit_should_offset_the_point():
+    r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+    s = Sphere() \
+        .set_transform(
+            Transformation()
+            .translate(0, 0, 1)
+        )
+    
+    i = Intersection(5, s)
+
+    comps = prepare_computation(i, r)
+
+    assert comps.over_point.z < -EPSILON / 2
+    assert comps.point.z > comps.over_point.z
