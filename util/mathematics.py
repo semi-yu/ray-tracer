@@ -28,6 +28,9 @@ class Vector(Quadruple):
 
         return result
 
+    def magnitude(self):
+        return np.linalg.norm(self._coord)
+
 
 class Point(Quadruple):
     def __init__(self, x=0, y=0, z=0):
