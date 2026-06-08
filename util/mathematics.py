@@ -3,6 +3,7 @@ import numpy as np
 
 EPSILON = 1e-5
 
+
 class Quadruple:
     def __init__(self, x, y, z, w):
         self._coord = np.array([x, y, z, w])
@@ -14,18 +15,22 @@ class Quadruple:
     @property
     def coord(self):
         return self._coord
-    
-    @property
-    def x(self): return self._coord[0]
 
     @property
-    def y(self): return self._coord[1]
+    def x(self):
+        return self._coord[0]
 
     @property
-    def z(self): return self._coord[2]
+    def y(self):
+        return self._coord[1]
 
     @property
-    def w(self): return self._coord[3]
+    def z(self):
+        return self._coord[2]
+
+    @property
+    def w(self):
+        return self._coord[3]
 
 
 class Vector(Quadruple):

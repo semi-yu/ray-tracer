@@ -170,14 +170,11 @@ def test_the_hit_when_an_intersection_occurs_on_the_inside():
     assert comps.inside == True
     assert comps.normal.coord == approx(Vector(0, 0, -1).coord)
 
+
 def test_the_hit_should_offset_the_point():
     r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
-    s = Sphere() \
-        .set_transform(
-            Transformation()
-            .translate(0, 0, 1)
-        )
-    
+    s = Sphere().set_transform(Transformation().translate(0, 0, 1))
+
     i = Intersection(5, s)
 
     comps = prepare_computation(i, r)

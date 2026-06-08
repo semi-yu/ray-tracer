@@ -39,7 +39,7 @@ class Computation:
     @property
     def inside(self):
         return self._inside
-    
+
     @property
     def over_point(self):
         return self._over_point
@@ -55,15 +55,14 @@ def prepare_computation(intersection, ray):
 
     n.set_coord(-1 * n.coord if is_inside else n.coord)
 
-    over_point = Point() \
-                .set_coord(p.coord + n.coord * EPSILON)
+    over_point = Point().set_coord(p.coord + n.coord * EPSILON)
 
     return Computation(
-        t = intersection.t,
-        object = intersection.object,
-        point = p,
-        eye = v,
-        normal = n,
-        inside = is_inside,
-        over_point = over_point
+        t=intersection.t,
+        object=intersection.object,
+        point=p,
+        eye=v,
+        normal=n,
+        inside=is_inside,
+        over_point=over_point,
     )
