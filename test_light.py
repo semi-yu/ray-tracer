@@ -5,7 +5,7 @@ from entities.material import Material
 from image.canvas import Color
 from util.mathematics import Point, Vector
 
-from entities.light import Light, lighting
+from light import Light, lighting
 
 
 def test_point_light_has_a_position_and_intensity():
@@ -88,5 +88,19 @@ def test_lighting_with_the_light_behind_the_surface():
     light = Light(Point(0, 0, 10), Color(1.0, 1.0, 1.0))
 
     result = lighting(m, light, pos, eye, normal)
+
+    assert result.arrayize() == approx(Color(0.1, 0.1, 0.1).arrayize(), abs=1e-5)
+
+
+def test_lighting_with_the_surface_in_shadow():
+    m = Material()
+    pos = Point(0, 0, 0)
+
+    eye = Vector(0, 0, -1)
+    normal = Vector(0, 0, -1)
+
+    light = Light(Point(0, 0, -10), Color(1.0, 1.0, 1.0))
+
+    result = lighting(m, light, pos, eye, normal, in_shadow=True)
 
     assert result.arrayize() == approx(Color(0.1, 0.1, 0.1).arrayize(), abs=1e-5)

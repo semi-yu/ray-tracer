@@ -1,13 +1,14 @@
 import math
 
 from pytest import approx
-import numpy as np
 
 from util.mathematics import Point, Vector
 from entities.ray import Ray
-from intersect import prepare_computation
 from entities.sphere import Sphere
-from intersect import intersect, hit, Intersection
+from intersect import intersect, Intersection
+
+from computation import prepare_computation
+from shadow import hit
 
 
 def test_ray_intersects_a_sphere_at_two_points():

@@ -2,12 +2,13 @@ import math
 
 import numpy as np
 
-from intersect import intersect, hit
+from intersect import intersect
+from shadow import hit
 
 from util.transformation import Transformation
 from util.mathematics import Point, Vector
 
-from entities.light import Light, lighting
+from light import Light, lighting
 from entities.sphere import Sphere
 from entities.ray import Ray
 from entities.normal import normal_at

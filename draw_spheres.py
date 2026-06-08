@@ -7,7 +7,7 @@ from entities.sphere import Sphere
 
 from util.mathematics import Vector, Point
 
-from entities.light import Light
+from light import Light
 from world import World
 
 from camera import Camera, render

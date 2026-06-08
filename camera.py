@@ -9,7 +9,7 @@ from entities.ray import Ray
 from util.mathematics import Vector, Point
 from util.transformation import Transformation
 
-from intersect import color_at
+from color_at import color_at
 
 from image.canvas import Canvas
 

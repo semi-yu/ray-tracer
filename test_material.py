@@ -1,11 +1,5 @@
 from pytest import approx
 
-from entities.sphere import Sphere
-
-from image.canvas import Color
-from util.mathematics import Point
-
-from entities.light import Light
 from entities.material import Material
 
 
