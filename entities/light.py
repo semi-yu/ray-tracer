@@ -20,7 +20,7 @@ class Light:
         return self._intensity
 
 
-def lighting(material, light, position, eye, normal) -> Color:
+def lighting(material, light, position, eye, normal, in_shadow = False) -> Color:
     effective_color = material.color.arrayize() * light.intensity.arrayize()
 
     diff = light.position.coord - position.coord
@@ -46,7 +46,7 @@ def lighting(material, light, position, eye, normal) -> Color:
             specular = light.intensity.arrayize() * material.specular * factor
 
     result = Color()
-    result.set_coord(ambient + diffuse + specular)
+    result.set_coord(ambient + (0 if in_shadow else diffuse + specular))
 
     return result
 
