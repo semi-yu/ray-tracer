@@ -48,12 +48,14 @@ def test_constructing_a_ray_through_a_corner_of_the_canvas():
 
 
 def test_constructing_a_ray_when_the_camera_is_transformed():
-    c = Camera(201, 101, np.pi / 2).set_transform(
-        Transformation().translate(0, -2, 5).rotate(np.pi / 4, axis="y")
+    c = Camera(201, 101, np.pi / 2) \
+        .set_transform(
+            Transformation() \
+                .translate(0, -2, 5) \
+                .rotate(np.pi / 4, axis="y")
     )
-    r = ray_for_pixel(c, 100, 50)
 
-    print(r.origin.coord, r.direction.coord)
+    r = ray_for_pixel(c, 100, 50)
 
     assert r.origin.coord == approx(Point(0, 2, -5).coord, abs=1e-7)
     assert r.direction.coord == approx(

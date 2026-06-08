@@ -40,6 +40,7 @@ class Camera:
 
     def set_transform(self, t):
         self._transformation = t
+        self._view_matrix = self._view_matrix @ self._transformation.matrix
         return self
 
     @property
