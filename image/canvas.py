@@ -3,16 +3,19 @@ from datetime import datetime
 
 
 class Color:
-    def __init__(self, r: float = 0, g: float = 0, b: float = 0):
-        self.r = r
-        self.g = g
-        self.b = b
+    def __init__(self, r: float = 0.0, g: float = 0.0, b: float = 0.0):
+        self._r = r
+        self._g = g
+        self._b = b
+
+    def __repr__(self):
+        return f"Color({self.r}, {self.g}, {self.b})"
 
     def arrayize(self):
-        return np.array([self.r, self.g, self.b])
+        return np.array([self._r, self._g, self._b])
 
     def set_coord(self, coord):
-        self.r, self.g, self.b = coord[0], coord[1], coord[2]
+        self._r, self._g, self._b = coord[0], coord[1], coord[2]
 
 
 class Canvas:
