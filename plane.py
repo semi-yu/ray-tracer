@@ -12,7 +12,7 @@ class Plane(Shape):
         return Vector(0, 1, 0)
     
     def local_intersect(self, ray: Ray) -> list[Vector]:
-        if ray.direction.y < EPSILON: return []
+        if abs(ray.direction.y) < EPSILON: return []
 
         t = -ray.origin.y / ray.direction.y
         return [Intersection(t, self)]
