@@ -2,6 +2,7 @@ import numpy as np
 
 from intersect import Intersection
 
+from entities.ray import Ray
 from entities.material import Material
 
 from util.mathematics import Vector, Point
@@ -25,7 +26,7 @@ class Sphere:
         self._material = material
         return self
 
-    def local_intersect(self, ray):
+    def local_intersect(self, ray: Ray):
         diff = ray.origin.coord - self.center.coord
 
         a = np.dot(ray.direction.coord, ray.direction.coord)
