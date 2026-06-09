@@ -1,7 +1,4 @@
-import math
 import numpy as np
-
-from entities.ray import transform
 
 
 def intersect(shape, ray):
