@@ -5,7 +5,8 @@ from util.mathematics import Point, Vector
 from util.transformation import Transformation
 
 from entities.ray import Ray, transform
-from entities.sphere import Sphere
+from shape import Shape
+from sphere import Sphere
 from entities.material import Material
 
 from intersect import intersect
@@ -46,7 +47,7 @@ def test_changing_sphere_transformation():
 
 
 def test_intersecting_a_scaled_sphere_with_a_ray():
-    s = Sphere(Point(0, 0, 0), 1.0)
+    s = Shape()
 
     r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
 
@@ -56,13 +57,12 @@ def test_intersecting_a_scaled_sphere_with_a_ray():
 
     xpoints = intersect(s, r)
 
-    assert len(xpoints) == 2
-    assert xpoints[0].t == 3
-    assert xpoints[1].t == 7
+    assert s.saved_ray.origin.coord == approx(Point(0, 0, -2.5).coord)
+    assert s.saved_ray.direction.coord == approx(Vector(0, 0, 0.5).coord)
 
 
 def test_intersecting_a_translated_sphere_with_a_ray():
-    s = Sphere(Point(0, 0, 0), 1.0)
+    s = Shape()
 
     r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
 
@@ -72,7 +72,8 @@ def test_intersecting_a_translated_sphere_with_a_ray():
 
     xpoints = intersect(s, r)
 
-    assert len(xpoints) == 0
+    assert s.saved_ray.origin.coord == approx(Point(-5, 0, -5).coord)
+    assert s.saved_ray.direction.coord == approx(Vector(0, 0, 1).coord)
 
 
 def test_a_sphere_has_a_default_material():
