@@ -3,7 +3,7 @@ import numpy as np
 from image.canvas import Color
 from entities.material import Material
 from util.transformation import Transformation
-from entities.sphere import Sphere
+from sphere import Sphere
 
 from util.mathematics import Vector, Point
 

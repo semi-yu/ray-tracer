@@ -1,5 +1,3 @@
-import math
-
 import numpy as np
 
 from intersect import intersect
@@ -8,7 +6,7 @@ from shadow import hit
 from util.transformation import Transformation
 from util.mathematics import Point, Vector
 
-from entities.sphere import Sphere
+from sphere import Sphere
 from entities.ray import Ray
 
 from image.canvas import Canvas, Color
