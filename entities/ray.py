@@ -16,6 +16,10 @@ class Ray:
     @property
     def direction(self) -> Vector:
         return self._direction
+    
+    def transform(self, matrix: Transformation):
+        return Ray(Point().set_coord(matrix @ self._origin.coord),
+                   Vector().set_coord(matrix @ self._direction.coord))
 
 
 def transform(ray: Ray, transform_matrix: Transformation) -> Ray:
