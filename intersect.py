@@ -4,25 +4,9 @@ import numpy as np
 from entities.ray import transform
 
 
-def intersect(sphere, ray):
-    inverse = sphere.transform.inverse()
-
-    nray = transform(ray, inverse)
-    diff = nray.origin.coord - sphere.center.coord
-
-    a = np.dot(nray.direction.coord, nray.direction.coord)
-    b = 2 * np.dot(nray.direction.coord, diff)
-    c = np.dot(diff, diff) - 1
-
-    discriminant = b * b - 4 * a * c
-
-    if discriminant < 0:
-        return []
-    else:
-        return [
-            Intersection((-b - math.sqrt(discriminant)) / (2 * a), sphere),
-            Intersection((-b + math.sqrt(discriminant)) / (2 * a), sphere),
-        ]
+def intersect(shape, ray):
+    local_ray = ray.transform(np.linalg.inv(shape.transform.matrix))
+    return shape.local_intersect(local_ray)
 
 
 class Intersection:

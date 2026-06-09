@@ -1,24 +1,16 @@
 import numpy as np
 
-from entities.sphere import Sphere
+from shape import Shape
 from util.mathematics import Vector, Point
 
 
-def normal_at(s: Sphere, p: Point) -> Vector:
-    localp = Point()
-    localp.set_coord(np.linalg.inv(s.transform.matrix) @ p.coord)
+def normal_at(shape: Shape, point: Point) -> Vector:
+    local_point = np.linalg.inv(shape.transform.matrix) @ point.coord
+    local_normal = shape.local_normal_at(local_point)
 
-    diff = localp.coord - Point().coord
+    world_normal = np.linalg.inv(shape.transform.matrix).T @ local_normal.coord
+    world_normal[3] = 0.0
 
-    normal = Vector()
-    normal.set_coord(diff / np.linalg.norm(diff))
+    result = Vector().set_coord(world_normal)
 
-    result_coord = np.linalg.inv(s.transform.matrix).T @ normal.coord
-    result_coord[3] = 0.0
-
-    result_coord /= np.linalg.norm(result_coord)
-
-    result = Vector()
-    result.set_coord(result_coord)
-
-    return result
+    return result.normalize()
