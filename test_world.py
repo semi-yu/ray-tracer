@@ -8,7 +8,7 @@ from util.transformation import Transformation
 from entities.ray import Ray
 from light import Light
 from entities.material import Material
-from entities.sphere import Sphere
+from sphere import Sphere
 
 from world import World
 from shadow import is_shadowed, shade_hit

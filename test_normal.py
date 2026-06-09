@@ -3,7 +3,7 @@ from pytest import approx
 
 from util.transformation import Transformation
 from entities.normal import normal_at
-from util.npematics import Vector, Point, EPSILON
+from util.mathematics import Vector, Point, EPSILON
 from sphere import Sphere
 from shape import Shape
 

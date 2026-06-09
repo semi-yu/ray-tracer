@@ -4,7 +4,7 @@ from pytest import approx
 
 from util.mathematics import Point, Vector, EPSILON
 from entities.ray import Ray
-from entities.sphere import Sphere
+from sphere import Sphere
 from intersect import intersect, Intersection
 from util.transformation import Transformation
 
