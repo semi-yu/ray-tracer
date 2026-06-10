@@ -16,7 +16,7 @@ def test_default_material():
     assert m.specular == approx(0.9)
     assert m.shininess == approx(200.0)
 
-def testS_lighting_with_a_pattern_applied():
+def test_lighting_with_a_pattern_applied():
     p = StripePattern(Color(1.0, 1.0, 1.0), Color(0.0, 0.0, 0.0))
 
     m = Material(
