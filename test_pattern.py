@@ -163,7 +163,9 @@ def test_a_gradient_linearly_interpolates_between_colors():
     black, white = black_and_white()
     p = GradientPattern(white, black)
 
+    # test case were modified to test smoothed gradient.
     assert p.pattern_at(Point(0, 0, 0)).arrayize() == approx(white.arrayize())
-    assert p.pattern_at(Point(0.25, 0, 0)).arrayize() == approx(Color(0.75, 0.75, 0.75).arrayize())
-    assert p.pattern_at(Point(0.5, 0, 0)).arrayize() == approx(Color(0.5, 0.5, 0.5).arrayize())
-    assert p.pattern_at(Point(0.75, 0, 0)).arrayize() == approx(Color(0.25, 0.25, 0.25).arrayize())
+    assert p.pattern_at(Point(0.25, 0, 0)).arrayize() == approx(Color(0.5, 0.5, 0.5).arrayize())
+    assert p.pattern_at(Point(0.5, 0, 0)).arrayize() == approx(black.arrayize())
+    assert p.pattern_at(Point(0.75, 0, 0)).arrayize() == approx(Color(0.5, 0.5, 0.5).arrayize())
+
