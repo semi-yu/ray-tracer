@@ -36,5 +36,6 @@ def shade_hit(world, comps) -> Color:
         comps.over_point,
         comps.eye,
         comps.normal,
-        in_shadow,
+        in_shadow = in_shadow,
+        object    = comps.object
     )
