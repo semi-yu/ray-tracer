@@ -48,3 +48,14 @@ class StripePattern(Pattern):
     @property
     def b(self):
         return self._b
+
+class GradientPattern(Pattern):
+    def __init__(self, a: Color, b: Color, transform = Transformation()):
+        super().__init__(transform)
+        self._a = a
+        self._b = b
+    
+    def pattern_at(self, point: Point) -> Color:
+        distance = self._b - self._a
+        fraction = 1.0 - 2.0 * abs(point.x - np.floor(point.x) - 0.5)
+        return self._a + distance * fraction
