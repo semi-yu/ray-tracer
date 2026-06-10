@@ -1,4 +1,4 @@
-
+from pattern import Pattern
 
 from image.canvas import Color
 
@@ -6,12 +6,12 @@ from image.canvas import Color
 class Material:
     def __init__(
         self,
-        pattern,
         color: Color = Color(1.0, 1.0, 1.0),
         ambient: float = 0.1,
         diffuse: float = 0.9,
         specular: float = 0.9,
         shininess: float = 200.0,
+        pattern: Pattern = None,
     ):
         self._color = color
         self._ambient = ambient
@@ -52,3 +52,7 @@ class Material:
     @property
     def shininess(self):
         return self._shininess
+
+    @property
+    def pattern(self):
+        return self._pattern
