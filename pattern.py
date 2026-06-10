@@ -7,13 +7,25 @@ from util.transformation import Transformation
 
 
 class Pattern:
-    # Just an placeholder class
-    def __init__(self, transform: Transformation):
+    def __init__(self, transform: Transformation = Transformation()):
         self._transform = transform
     
     def set_transform(self, transform: Transformation):
         self._transform = transform
         return self
+    
+    def pattern_at(self, point: Point) -> Color:
+        return Color(point.x, point.y, point.z)
+
+        raise Exception("implement the method to use!")
+
+    def pattern_at_object(self, object, point: Point) -> Color:
+        obj_point = np.linalg.inv(object.transform.matrix) @ point.coord
+        pat_point = np.linalg.inv(self._transform.matrix) @ obj_point
+
+        result  = Point().set_coord(pat_point)
+
+        return self.pattern_at(result)
 
     @property
     def transform(self): return self._transform
@@ -25,17 +37,9 @@ class StripePattern(Pattern):
         self._a = a
         self._b = b
 
-    def stripe_at(self, point: Point) -> Color:
+    def pattern_at(self, point: Point) -> Color:
         pointx = point.x
         return self._a if np.floor(pointx) % 2 == 0 else self._b
-
-    def stripe_at_object(self, object, point: Point) -> Color:
-        obj_point = np.linalg.inv(object.transform.matrix) @ point.coord
-        pat_point = np.linalg.inv(self._transform.matrix) @ obj_point
-
-        result  = Point().set_coord(pat_point)
-
-        return self.stripe_at(result)
 
     @property
     def a(self):
