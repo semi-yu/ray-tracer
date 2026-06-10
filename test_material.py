@@ -7,6 +7,7 @@ from util.mathematics import Vector, Point, EPSILON
 from pattern import StripePattern
 from light import Light, lighting
 
+from sphere import Sphere
 
 def test_default_material():
     m = Material()
@@ -28,8 +29,8 @@ def test_lighting_with_a_pattern_applied():
 
     light = Light(Point(0, 0, -10.0), Color(1.0, 1.0, 1.0))
 
-    c1 = lighting(m, light, Point(0.9, 0, 0), eye_vector, normal_vector, False)
-    c2 = lighting(m, light, Point(1.1, 0, 0), eye_vector, normal_vector, False)
+    c1 = lighting(m, light, Point(0.9, 0, 0), eye_vector, normal_vector, False, object = Sphere())
+    c2 = lighting(m, light, Point(1.1, 0, 0), eye_vector, normal_vector, False, object = Sphere())
 
-    assert c1 == approx(Color(1.0, 1.0, 1.0), abs=EPSILON)
-    assert c2 == approx(Color(0.0, 0.0, 0.0), abs=EPSILON)
+    assert c1.arrayize() == approx(Color(1.0, 1.0, 1.0).arrayize(), abs=EPSILON)
+    assert c2.arrayize() == approx(Color(0.0, 0.0, 0.0).arrayize(), abs=EPSILON)
