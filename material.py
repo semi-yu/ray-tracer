@@ -1,9 +1,12 @@
+
+
 from image.canvas import Color
 
 
 class Material:
     def __init__(
         self,
+        pattern,
         color: Color = Color(1.0, 1.0, 1.0),
         ambient: float = 0.1,
         diffuse: float = 0.9,
@@ -16,11 +19,19 @@ class Material:
         self._specular = specular
         self._shininess = shininess
 
+        self._pattern = pattern
+
     def set_color(self, color):
         self._color = color
+        return self
 
     def set_ambient(self, ambient):
         self._ambient = ambient
+        return self
+
+    def set_pattern(self, pattern):
+        self._pattern = pattern
+        return self
 
     @property
     def color(self):
