@@ -1,7 +1,7 @@
 import numpy as np
 
 from image.canvas import Color
-from entities.material import Material
+from material import Material
 from util.transformation import Transformation
 from sphere import Sphere
 

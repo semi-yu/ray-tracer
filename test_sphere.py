@@ -7,7 +7,7 @@ from util.transformation import Transformation
 from entities.ray import Ray, transform
 from shape import Shape
 from sphere import Sphere
-from entities.material import Material
+from material import Material
 
 from intersect import intersect
 

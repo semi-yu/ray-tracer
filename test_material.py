@@ -1,7 +1,7 @@
 from pytest import approx
 
 from image.canvas import Color
-from entities.material import Material
+from material import Material
 from util.mathematics import Vector, Point, EPSILON
 
 from pattern import StripePattern

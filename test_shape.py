@@ -6,7 +6,7 @@ from intersect import intersect
 from entities.ray import Ray
 
 from entities.normal import normal_at
-from entities.material import Material
+from material import Material
 
 from util.mathematics import Vector, Point
 from util.transformation import Transformation

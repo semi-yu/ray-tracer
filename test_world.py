@@ -7,7 +7,7 @@ from util.transformation import Transformation
 
 from entities.ray import Ray
 from light import Light
-from entities.material import Material
+from material import Material
 from sphere import Sphere
 
 from world import World

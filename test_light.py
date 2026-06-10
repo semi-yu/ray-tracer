@@ -1,7 +1,7 @@
 import numpy as np
 from pytest import approx
 
-from entities.material import Material
+from material import Material
 from image.canvas import Color
 from util.mathematics import Point, Vector, EPSILON
 

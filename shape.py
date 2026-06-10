@@ -1,7 +1,7 @@
 import numpy as np
 
 from entities.ray import Ray
-from entities.material import Material
+from material import Material
 
 from util.transformation import Transformation
 from util.mathematics import Vector, Point
