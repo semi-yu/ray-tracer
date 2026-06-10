@@ -73,7 +73,9 @@ def test_with_eye_in_the_path_of_the_reflection_vector():
 
     result = lighting(m, light, pos, eye, normal)
 
-    assert result.arrayize() == approx(Color(1.6364, 1.6364, 1.6364).arrayize(), abs=EPSILON)
+    assert result.arrayize() == approx(
+        Color(1.6364, 1.6364, 1.6364).arrayize(), abs=EPSILON
+    )
 
 
 def test_lighting_with_the_light_behind_the_surface():

@@ -16,24 +16,17 @@ def test_default_material():
     assert m.specular == approx(0.9)
     assert m.shininess == approx(200.0)
 
+
 def test_lighting_with_a_pattern_applied():
     p = StripePattern(Color(1.0, 1.0, 1.0), Color(0.0, 0.0, 0.0))
 
-    m = Material(
-        ambient = 1.0,
-        diffuse = 0.0,
-        specular = 0.0,
-        pattern = p
-    )
+    m = Material(ambient=1.0, diffuse=0.0, specular=0.0, pattern=p)
 
     eye_vector = Vector(0, 0, -1.0)
 
     normal_vector = Vector(0, 0, -1.0)
 
-    light = Light(
-        Point(0, 0, -10.0),
-        Color(1.0, 1.0, 1.0)
-    )
+    light = Light(Point(0, 0, -10.0), Color(1.0, 1.0, 1.0))
 
     c1 = lighting(m, light, Point(0.9, 0, 0), eye_vector, normal_vector, False)
     c2 = lighting(m, light, Point(1.1, 0, 0), eye_vector, normal_vector, False)

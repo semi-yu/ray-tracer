@@ -15,10 +15,7 @@ from camera import Camera, render
 
 
 def main():
-    floor = (
-        Plane()
-        .set_material(Material(color=Color(1, 0.9, 0.9), specular=0.0))
-    )
+    floor = Plane().set_material(Material(color=Color(1, 0.9, 0.9), specular=0.0))
 
     leftwall = Plane().set_transform(
         Transformation()
