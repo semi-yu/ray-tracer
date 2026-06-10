@@ -2,7 +2,7 @@ import numpy as np
 
 from pytest import approx
 
-from pattern import Pattern, StripePattern, GradientPattern
+from pattern import Pattern, StripePattern, GradientPattern, RingPattern
 
 from util.transformation import Transformation
 
@@ -169,3 +169,11 @@ def test_a_gradient_linearly_interpolates_between_colors():
     assert p.pattern_at(Point(0.5, 0, 0)).arrayize() == approx(black.arrayize())
     assert p.pattern_at(Point(0.75, 0, 0)).arrayize() == approx(Color(0.5, 0.5, 0.5).arrayize())
 
+def test_a_ring_should_extend_in_both_x_and_z():
+    black, white = black_and_white()
+    p = RingPattern(white, black)
+
+    assert p.pattern_at(Point(0, 0, 0)).arrayize() == approx(white.arrayize())
+    assert p.pattern_at(Point(1, 0, 0)).arrayize() == approx(black.arrayize())
+    assert p.pattern_at(Point(0, 0, 1)).arrayize() == approx(black.arrayize())
+    assert p.pattern_at(Point(0.708, 0, 0.708)).arrayize() == approx(black.arrayize())

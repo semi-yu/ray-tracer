@@ -59,3 +59,14 @@ class GradientPattern(Pattern):
         distance = self._b - self._a
         fraction = 1.0 - 2.0 * abs(point.x - np.floor(point.x) - 0.5)
         return self._a + distance * fraction
+
+class RingPattern(Pattern):
+    def __init__(self, a: Color, b: Color, transform = Transformation()):
+        super().__init__(transform)
+        self._a = a
+        self._b = b
+
+    def pattern_at(self, point: Point) -> Color:
+        norm_square = point.x * point.x + point.z * point.z
+
+        return self._a if np.floor(np.sqrt(norm_square)) % 2 == 0 else self._b
