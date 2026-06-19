@@ -50,7 +50,7 @@ def test_a_stripe_pattern_is_constant_in_z():
 def test_a_stripe_pattern_is_constant_in_x():
     black, white = black_and_white()
 
-    p = StripePattern(white, black)
+    p = StripePattern(white, black, Transformation())
 
     assert p.pattern_at(Point(0, 0, 0)).arrayize() == approx(white.arrayize())
     assert p.pattern_at(Point(0.9, 0, 0)).arrayize() == approx(white.arrayize())
@@ -103,16 +103,13 @@ def test_stripes_with_both_an_object_and_a_pattern_transformation():
     assert color.arrayize() == approx(white.arrayize())
 
 def test_default_pattern_transformation():
-    p = Pattern()
+    p = Pattern(Transformation())
 
     assert p.transform.matrix == approx(np.identity(4))
 
 def test_assigning_a_transformation():
-    p = Pattern() \
-        .set_transform(
-            Transformation()
-            .translate(1, 2, 3)
-        )
+    p = Pattern(Transformation()
+        .translate(1, 2, 3))
     
     assert p.transform.matrix == approx(Transformation().translate(1, 2, 3).matrix)
 
@@ -123,7 +120,7 @@ def test_a_pattern_with_an_object_transformation():
             .scale(2.0, 2.0, 2.0)
         )
     
-    p = Pattern()
+    p = Pattern(Transformation())
     
     c = p.pattern_at_object(s, Point(2, 3, 4))
 
@@ -132,11 +129,8 @@ def test_a_pattern_with_an_object_transformation():
 def test_a_pattern_with_a_pattern_transformation():
     s = Sphere()
     
-    p = Pattern() \
-        .set_transform(
-            Transformation()
-            .scale(2.0, 2.0, 2.0)
-        )
+    p = Pattern(Transformation()
+        .scale(2.0, 2.0, 2.0))
 
     c = p.pattern_at_object(s, Point(2, 3, 4))
 
@@ -149,11 +143,8 @@ def test_a_pattern_with_a_pattern_transformation():
             .scale(2.0, 2.0, 2.0)
         )
     
-    p = Pattern() \
-        .set_transform(
-            Transformation()
-            .translate(0.5, 1.0, 1.5)
-        )
+    p = Pattern(Transformation()
+        .translate(0.5, 1.0, 1.5))
 
     c = p.pattern_at_object(s, Point(2.5, 3.0, 3.5))
 
@@ -161,7 +152,7 @@ def test_a_pattern_with_a_pattern_transformation():
 
 def test_a_gradient_linearly_interpolates_between_colors():
     black, white = black_and_white()
-    p = GradientPattern(white, black)
+    p = GradientPattern(white, black, Transformation())
 
     # test case were modified to test smoothed gradient.
     assert p.pattern_at(Point(0, 0, 0)).arrayize() == approx(white.arrayize())
@@ -171,7 +162,7 @@ def test_a_gradient_linearly_interpolates_between_colors():
 
 def test_a_ring_should_extend_in_both_x_and_z():
     black, white = black_and_white()
-    p = RingPattern(white, black)
+    p = RingPattern(white, black, Transformation())
 
     assert p.pattern_at(Point(0, 0, 0)).arrayize() == approx(white.arrayize())
     assert p.pattern_at(Point(1, 0, 0)).arrayize() == approx(black.arrayize())

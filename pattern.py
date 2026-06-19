@@ -7,7 +7,7 @@ from util.transformation import Transformation
 
 
 class Pattern:
-    def __init__(self, transform: Transformation = Transformation()):
+    def __init__(self, transform):
         self._transform = transform
     
     def set_transform(self, transform: Transformation):
@@ -19,8 +19,8 @@ class Pattern:
 
         raise Exception("implement the method to use!")
 
-    def pattern_at_object(self, object, point: Point) -> Color:
-        obj_point = np.linalg.inv(object.transform.matrix) @ point.coord
+    def pattern_at_object(self, obj, point: Point) -> Color:
+        obj_point = np.linalg.inv(obj.transform.matrix) @ point.coord
         pat_point = np.linalg.inv(self._transform.matrix) @ obj_point
 
         result  = Point().set_coord(pat_point)
@@ -50,7 +50,7 @@ class StripePattern(Pattern):
         return self._b
 
 class GradientPattern(Pattern):
-    def __init__(self, a: Color, b: Color, transform = Transformation()):
+    def __init__(self, a: Color, b: Color, transform):
         super().__init__(transform)
         self._a = a
         self._b = b
@@ -61,12 +61,20 @@ class GradientPattern(Pattern):
         return self._a + distance * fraction
 
 class RingPattern(Pattern):
-    def __init__(self, a: Color, b: Color, transform = Transformation()):
+    def __init__(self, a: Color, b: Color, transform):
         super().__init__(transform)
         self._a = a
         self._b = b
 
     def pattern_at(self, point: Point) -> Color:
-        norm_square = point.x * point.x + point.z * point.z
+        norm = np.hypot(point.x, point.z)
+        return self._a if int(np.floor(norm)) % 2 == 0 else self._b
 
-        return self._a if np.floor(np.sqrt(norm_square)) % 2 == 0 else self._b
+class CheckerPattern(Pattern):
+    def __init__(self, a: Color, b: Color, transform):
+        super().__init__(transform)
+        self._a = a
+        self._b = b
+
+    def pattern_at(self, point: Point) -> Color:
+        ...
