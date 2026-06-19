@@ -1,21 +1,23 @@
+import numpy as np
 from pytest import approx
 
 from image.canvas import Color
 
-from util.mathematics import Point, Vector
+from util.mathematics import Point, Vector, EPSILON
 from util.transformation import Transformation
 
 from entities.ray import Ray
 from light import Light
 from material import Material
 from sphere import Sphere
+from plane import Plane
 
-from world import World, reflected_color
+from world import World
 from shadow import is_shadowed, shade_hit
 
 from intersect import intersect_world, Intersection
 
-from color_at import color_at
+from color_at import color_at, reflected_color
 from computation import prepare_computation
 
 
@@ -189,3 +191,24 @@ def test_the_reflected_color_for_a_nonreflective_material():
     color = reflected_color(w, comps)
     
     assert color.arrayize() == approx(Color().arrayize())
+
+def test_the_reflected_color_for_a_reflective_material():
+    w = default_world()
+
+    s = Plane() \
+        .set_material(
+            Material(reflective=0.5)) \
+        .set_transform(
+            Transformation()
+            .translate(0, -1, 0)
+        )
+    
+    w.add_object(s)
+
+    r = Ray(Point(0, 0, -3), Vector(0, - np.sqrt(2) / 2, np.sqrt(2) / 2))
+    i = Intersection(np.sqrt(2), s)
+
+    comps = prepare_computation(i, r)
+    color = reflected_color(w, comps)
+
+    assert color.arrayize() == approx(Color(0.19032, 0.2379, 0.14274).arrayize(), abs=1e-4)
