@@ -34,3 +34,9 @@ def test_lighting_with_a_pattern_applied():
 
     assert c1.arrayize() == approx(Color(1.0, 1.0, 1.0).arrayize(), abs=EPSILON)
     assert c2.arrayize() == approx(Color(0.0, 0.0, 0.0).arrayize(), abs=EPSILON)
+
+def test_reflectivity_for_the_default_material():
+    m = Material()
+    
+    assert m.reflective == approx(0.0)
+
