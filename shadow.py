@@ -1,10 +1,8 @@
-from image.canvas import Color
 from entities.ray import Ray
 from util.mathematics import Vector, Point, EPSILON
 
 from world import World
 
-from light import lighting
 from intersect import intersect_world, Intersection
 
 
@@ -25,17 +23,3 @@ def is_shadowed(world: World, point: Point) -> bool:
 def hit(xpoints: list[Intersection]):
     nonnegatives = filter(lambda x: x.t > 0, xpoints)
     return min(nonnegatives, key=lambda x: x.t, default=None)
-
-
-def shade_hit(world, comps) -> Color:
-    in_shadow = is_shadowed(world, comps.over_point)
-
-    return lighting(
-        comps.object.material,
-        world.light,
-        comps.over_point,
-        comps.eye,
-        comps.normal,
-        in_shadow = in_shadow,
-        object    = comps.object
-    )
