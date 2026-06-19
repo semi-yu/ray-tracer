@@ -12,6 +12,8 @@ class Material:
         specular: float = 0.9,
         shininess: float = 200.0,
         reflective: float = 0.0,
+        transparency: float = 0.0,
+        reflective_index: float = 1.0,
         pattern: Pattern = None,
     ):
         self._color = color
@@ -20,6 +22,8 @@ class Material:
         self._specular = specular
         self._shininess = shininess
         self._reflective = reflective
+        self._transparency = transparency
+        self._reflective_index = reflective_index
 
         self._pattern = pattern
 
@@ -62,3 +66,11 @@ class Material:
     @property
     def reflective(self):
         return self._reflective
+
+    @property
+    def transparency(self):
+        return self._transparency
+
+    @property
+    def reflective_index(self):
+        return self._reflective_index

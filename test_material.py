@@ -40,3 +40,23 @@ def test_reflectivity_for_the_default_material():
     
     assert m.reflective == approx(0.0)
 
+def test_transparency_and_reflective_index_for_the_default_material():
+    m = Material()
+
+    assert m.transparency == approx(0.0)
+    assert m.reflective_index == approx(1.0)
+
+def test_a_helper_for_producing_a_sphere_with_a_glassy_material():
+    def glass_sphere():
+        return Sphere() \
+            .set_material(
+                Material(
+                    transparency = 1.0,
+                    reflective_index = 1.5
+                )
+            )
+    
+    s = glass_sphere()
+
+    assert s.material.transparency == approx(1.0)
+    assert s.material.reflective_index == approx(1.5)
