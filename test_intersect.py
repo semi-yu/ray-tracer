@@ -1,3 +1,4 @@
+import numpy as np
 import math
 
 from pytest import approx
@@ -5,6 +6,7 @@ from pytest import approx
 from util.mathematics import Point, Vector, EPSILON
 from entities.ray import Ray
 from sphere import Sphere
+from plane import Plane
 from intersect import intersect, Intersection
 from util.transformation import Transformation
 
@@ -181,3 +183,14 @@ def test_the_hit_should_offset_the_point():
 
     assert comps.over_point.z < -EPSILON / 2
     assert comps.point.z > comps.over_point.z
+
+def test_precomputing_the_reflection_vector():
+    s = Plane()
+
+    r = Ray(Point(0, 1, -1), Vector(0, -np.sqrt(2) / 2, np.sqrt(2) / 2))
+    
+    i = Intersection(np.sqrt(2), s)
+
+    comps = prepare_computation(i, r)
+
+    assert comps.reflect.coord == approx(Vector(0, np.sqrt(2) / 2, np.sqrt(2) / 2).coord)

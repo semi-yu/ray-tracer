@@ -3,16 +3,26 @@ import numpy as np
 from util.mathematics import Vector, Point, EPSILON
 from entities.normal import normal_at
 from entities.ray import position
+from reflect import reflect
 
 
 class Computation:
-    def __init__(self, t, object, point, eye, normal, inside, over_point):
+    def __init__(self, 
+                 t, 
+                 object, 
+                 point, 
+                 eye, 
+                 normal, 
+                 inside, 
+                 over_point,
+                 reflect):
         self._t = t
         self._object = object
         self._point = point
         self._eye = eye
         self._normal = normal
         self._inside = inside
+        self._reflect = reflect
 
         self._over_point = over_point
 
@@ -44,6 +54,9 @@ class Computation:
     def over_point(self):
         return self._over_point
 
+    @property
+    def reflect(self):
+        return self._reflect
 
 def prepare_computation(intersection, ray):
     v = Vector()
@@ -65,4 +78,5 @@ def prepare_computation(intersection, ray):
         normal=n,
         inside=is_inside,
         over_point=over_point,
+        reflect=reflect(ray.direction, n)
     )
