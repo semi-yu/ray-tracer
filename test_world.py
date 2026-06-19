@@ -10,7 +10,7 @@ from light import Light
 from material import Material
 from sphere import Sphere
 
-from world import World
+from world import World, reflected_color
 from shadow import is_shadowed, shade_hit
 
 from intersect import intersect_world, Intersection
@@ -174,3 +174,18 @@ def test_shade_hit_is_given_an_intersection_in_shadow():
     c = shade_hit(w, prepare_computation(Intersection(4, s2), r))
 
     assert c.arrayize() == approx(Color(0.1, 0.1, 0.1).arrayize())
+
+def test_the_reflected_color_for_a_nonreflective_material():
+    w = default_world()
+
+    r = Ray(Point(0, 0, 0), Vector(0, 0, 1))
+
+    s = w.objects[1]
+    s.material.set_ambient(1.0)
+    
+    i = Intersection(1.0, s)
+
+    comps = prepare_computation(i, r)
+    color = reflected_color(w, comps)
+    
+    assert color.arrayize() == approx(Color().arrayize())
