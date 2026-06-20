@@ -2,9 +2,10 @@ import numpy as np
 
 from util.mathematics import Vector, Point, EPSILON
 from entities.normal import normal_at
-from entities.ray import position
+from entities.ray import Ray, position
 from reflect import reflect
 
+from intersect import Intersection
 
 class Computation:
     def __init__(self, 
@@ -15,7 +16,9 @@ class Computation:
                  normal, 
                  inside, 
                  over_point,
-                 reflect):
+                 reflect,
+                 n1,
+                 n2):
         self._t = t
         self._object = object
         self._point = point
@@ -23,6 +26,9 @@ class Computation:
         self._normal = normal
         self._inside = inside
         self._reflect = reflect
+
+        self._n1 = n1
+        self._n2 = n2
 
         self._over_point = over_point
 
@@ -57,8 +63,17 @@ class Computation:
     @property
     def reflect(self):
         return self._reflect
+    
+    @property
+    def n1(self):
+        return self._n1
+    
+    @property
+    def n2(self):
+        return self._n2
 
-def prepare_computation(intersection, ray):
+
+def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersection] = None):
     v = Vector()
     v.set_coord(-1 * ray.direction.coord)
     p = position(ray, intersection.t)
@@ -70,6 +85,24 @@ def prepare_computation(intersection, ray):
 
     over_point = Point().set_coord(p.coord + n.coord * EPSILON)
 
+    n1, n2 = 1.0, 1.0
+
+    if xs is not None:
+        containers = []
+
+        for i in xs:
+            if i == intersection:
+                n1 = 1.0 if not containers else containers[-1].material.reflective_index
+            
+            if i.object in containers:
+                containers.remove(i.object)
+            else:
+                containers.append(i.object)
+            
+            if i == intersection:
+                n2 = 1.0 if not containers else containers[-1].material.reflective_index
+                break
+
     return Computation(
         t=intersection.t,
         object=intersection.object,
@@ -78,5 +111,7 @@ def prepare_computation(intersection, ray):
         normal=n,
         inside=is_inside,
         over_point=over_point,
-        reflect=reflect(ray.direction, n)
+        reflect=reflect(ray.direction, n),
+        n1 = n1,
+        n2 = n2
     )

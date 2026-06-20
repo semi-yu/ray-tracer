@@ -38,6 +38,10 @@ class Material:
     def set_pattern(self, pattern):
         self._pattern = pattern
         return self
+    
+    def set_reflective_index(self, reflective_index):
+        self._reflective_index = reflective_index
+        return self
 
     @property
     def color(self):

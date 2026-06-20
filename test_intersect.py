@@ -5,7 +5,7 @@ from pytest import approx
 
 from util.mathematics import Point, Vector, EPSILON
 from entities.ray import Ray
-from sphere import Sphere
+from sphere import Sphere, glass_sphere
 from plane import Plane
 from intersect import intersect, Intersection
 from util.transformation import Transformation
@@ -194,3 +194,54 @@ def test_precomputing_the_reflection_vector():
     comps = prepare_computation(i, r)
 
     assert comps.reflect.coord == approx(Vector(0, np.sqrt(2) / 2, np.sqrt(2) / 2).coord)
+
+def test_finding_n1_and_n2_at_various_intersections():
+    a = glass_sphere() \
+        .set_transform(
+            Transformation()
+            .scale(2, 2, 2)
+        )
+    a.material.set_reflective_index(1.5)
+
+    b = glass_sphere() \
+        .set_transform(
+            Transformation()
+            .translate(0, 0, -0.25)
+        )
+    b.material.set_reflective_index(2.0)
+
+    c = glass_sphere() \
+        .set_transform(
+            Transformation()
+            .translate(0, 0, 0.25)
+        )
+    c.material.set_reflective_index(2.5)
+
+    r = Ray(Point(0, 0, -4), Vector(0, 0, 1))
+
+    xs = [
+        Intersection(2, a),
+        Intersection(2.75, b),
+        Intersection(3.25, c),
+        Intersection(4.75, b),
+        Intersection(5.25, c),
+        Intersection(6, a),
+    ]
+
+    ns = [
+        (1.0, 1.5),
+        (1.5, 2.0),
+        (2.0, 2.5), 
+        (2.5, 2.5), 
+        (2.5, 1.5),  
+        (1.5, 1.0), 
+    ]
+
+    n_ans = len(ns)
+
+    for idx in range(n_ans):
+        comps = prepare_computation(xs[idx], r, xs)
+        n1, n2 = ns[idx]
+        
+        assert comps.n1 == n1
+        assert comps.n2 == n2
