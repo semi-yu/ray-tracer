@@ -14,6 +14,8 @@ from light import lighting
 
 from computation import Computation
 
+from util.mathematics import Vector, Point
+
 
 REMANINING = 5
 
@@ -43,8 +45,9 @@ def shade_hit(world, comps, remaining: int = REMANINING) -> Color:
     )
 
     reflected = reflected_color(world, comps, remaining)
+    refracted = refracted_color(world, comps, remaining)
 
-    return surface + reflected
+    return surface + reflected + refracted
 
 
 def reflected_color(world: World, comps: Computation, remaining: int = REMANINING) -> Color:
@@ -62,14 +65,27 @@ def refracted_color(world: World, comps: Computation, remaining: int) -> Color:
     if comps.object.material.transparency == 0:
         return Color()
     
-    def has_total_internal_reflection_occured():
-        n_ratio = comps.n1 / comps.n2
-        cos_i = np.dot(comps.eye.coord, comps.normal.coord)
-        sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i)
+    n_ratio = comps.n1 / comps.n2
+    cos_i = np.dot(comps.eye.coord, comps.normal.coord)
+    sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i)
 
-        return sin2_t > 1.0
+    print(comps.n1, comps.n2, n_ratio)
 
-    if has_total_internal_reflection_occured():
-        return Color()
+    if sin2_t > 1.0: return Color()
     
-    return Color(1.0, 1.0, 1.0)
+    cos_t = np.sqrt(1.0 - sin2_t)
+    direction = comps.normal * (n_ratio * cos_i - cos_t) - \
+                comps.eye * n_ratio
+    
+    print(comps.eye, comps.normal)
+    
+    print(cos_i, sin2_t, cos_t)
+
+    refract_ray = Ray(comps.under_point, direction)
+
+    print(refract_ray)
+    
+    color = color_at(world, refract_ray, remaining - 1) * \
+            comps.object.material.transparency
+
+    return color

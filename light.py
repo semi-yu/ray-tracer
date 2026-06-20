@@ -21,10 +21,12 @@ class Light:
 
 
 def lighting(material, light, position, eye, normal, in_shadow=False, object = None) -> Color:
-    effective_color = material.color.arrayize() * light.intensity.arrayize()
-
     if material.pattern is not None:
-        effective_color *= material.pattern.pattern_at_object(object, position).arrayize()
+        base_color = material.pattern.pattern_at_object(object, position).arrayize()
+    else:
+        base_color = material.color.arrayize()
+        
+    effective_color = base_color * light.intensity.arrayize()
 
     diff = light.position.coord - position.coord
     light_vector = diff / np.linalg.norm(diff)

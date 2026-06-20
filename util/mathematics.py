@@ -31,11 +31,22 @@ class Quadruple:
     @property
     def w(self):
         return self._coord[3]
+    
+    def __repr__(self):
+        return f"coord ({self._coord})"
 
 
 class Vector(Quadruple):
     def __init__(self, x=0, y=0, z=0):
         super().__init__(x, y, z, 0)
+
+    def __sub__(self, other):
+        if isinstance(other, Vector):
+            return Vector().set_coord(self._coord - other.coord)
+
+    def __mul__(self, other):
+        if isinstance(other, (float, int, np.number)):
+            return Vector().set_coord(self._coord * other)
 
     def normalize(self):
         mag = np.linalg.norm(self._coord)

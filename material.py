@@ -34,6 +34,14 @@ class Material:
     def set_ambient(self, ambient):
         self._ambient = ambient
         return self
+    
+    def set_diffuse(self, diffuse):
+        self._diffuse = diffuse
+        return self
+    
+    def set_specular(self, specular):
+        self._specular = specular
+        return self
 
     def set_pattern(self, pattern):
         self._pattern = pattern

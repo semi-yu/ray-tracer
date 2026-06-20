@@ -21,6 +21,7 @@ from computation import prepare_computation
 
 from color_auxils import color_at, shade_hit, reflected_color, refracted_color
 
+from pattern import Pattern
 
 def create_world():
     return World()
@@ -317,3 +318,62 @@ def test_the_refracted_color_at_the_maximum_recursive_depth():
     color = refracted_color(w, comps, 5)
     
     assert color.arrayize() == approx(Color().arrayize())
+
+def test_the_refracted_color_with_a_refracted_ray():
+    w = default_world()
+
+    a = w.objects[0]
+    a.material.set_ambient(1.0)
+    a.material.set_pattern(
+        Pattern(Transformation())
+    )
+    a.material.set_diffuse(0.0)
+    a.material.set_specular(0.0)
+
+    b = w.objects[1]
+    b.material.set_transparency(1.0)
+    b.material.set_reflective_index(1.5)
+
+    r = Ray(Point(0, 0, 0.1), Vector(0, 1, 0))
+
+    xs = [
+        Intersection(-0.9899, a),
+        Intersection(-0.4899, b),
+        Intersection( 0.4899, b),
+        Intersection( 0.9899, a),
+    ]
+
+    comps = prepare_computation(xs[2], r, xs)
+    color = refracted_color(w, comps, 5)
+
+    assert color.arrayize() == approx(Color(0, 0.99888, 0.04725).arrayize(), abs=1e-4)
+
+def test_shade_hit_with_a_transparency_material():
+    w = default_world()
+
+    floor = Plane() \
+        .set_transform(
+            Transformation()
+            .translate(0, -1, 0)
+        )
+    floor.material.set_transparency(0.5)
+    floor.material.set_reflective_index(1.5)
+
+    ball = Sphere() \
+            .set_transform(
+                Transformation()
+                .translate(0, -3.5, -0.5)
+            )
+    ball.material.set_color(Color(1.0, 0, 0))
+    ball.material.set_ambient(0.5)
+
+    w.add_object(floor)
+    w.add_object(ball)
+
+    r = Ray(Point(0, 0, -3), Vector(0, - np.sqrt(2) / 2, np.sqrt(2) / 2))
+    xs = [Intersection(np.sqrt(2), floor)]
+
+    comps = prepare_computation(xs[0], r, xs)
+    color = shade_hit(w, comps, 5)
+
+    assert color.arrayize() == approx(Color(0.93642, 0.68642, 0.68642).arrayize(), abs=1e-5)

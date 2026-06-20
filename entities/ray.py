@@ -22,6 +22,9 @@ class Ray:
             Point().set_coord(matrix @ self._origin.coord),
             Vector().set_coord(matrix @ self._direction.coord),
         )
+    
+    def __repr__(self):
+        return f"Ray({self._origin}, {self._direction})"
 
 
 def transform(ray: Ray, transform_matrix: Transformation) -> Ray:
