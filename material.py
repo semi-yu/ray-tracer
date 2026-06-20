@@ -39,6 +39,10 @@ class Material:
         self._pattern = pattern
         return self
     
+    def set_transparency(self, transparency):
+        self._transparency = transparency
+        return self 
+
     def set_reflective_index(self, reflective_index):
         self._reflective_index = reflective_index
         return self

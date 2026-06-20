@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 from image.canvas import Color
 from entities.ray import Ray
@@ -59,6 +60,16 @@ def reflected_color(world: World, comps: Computation, remaining: int = REMANININ
 
 def refracted_color(world: World, comps: Computation, remaining: int) -> Color:
     if comps.object.material.transparency == 0:
+        return Color()
+    
+    def has_total_internal_reflection_occured():
+        n_ratio = comps.n1 / comps.n2
+        cos_i = np.dot(comps.eye.coord, comps.normal.coord)
+        sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i)
+
+        return sin2_t > 1.0
+
+    if has_total_internal_reflection_occured():
         return Color()
     
     return Color(1.0, 1.0, 1.0)

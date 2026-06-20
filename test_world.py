@@ -297,3 +297,23 @@ def test_the_refracted_color_with_an_opaque_surface():
     color = refracted_color(w, comps, 5)
 
     assert color.arrayize() == approx(Color().arrayize())
+
+
+def test_the_refracted_color_at_the_maximum_recursive_depth():
+    w = default_world()
+
+    s = w.objects[0]
+    s.material.set_transparency(1.0)
+    s.material.set_reflective_index(1.5)
+
+    r = Ray(Point(0, 0, np.sqrt(2) / 2), Vector(0, 1, 0))
+
+    xs = [
+        Intersection(-np.sqrt(2) / 2, s),
+        Intersection( np.sqrt(2) / 2, s)
+    ]
+
+    comps = prepare_computation(xs[1], r, xs)
+    color = refracted_color(w, comps, 5)
+    
+    assert color.arrayize() == approx(Color().arrayize())
