@@ -56,3 +56,9 @@ def reflected_color(world: World, comps: Computation, remaining: int = REMANININ
     color = color_at(world, reflected_ray, remaining - 1)
 
     return color * comps.object.material.reflective
+
+def refracted_color(world: World, comps: Computation, remaining: int) -> Color:
+    if comps.object.material.transparency == 0:
+        return Color()
+    
+    return Color(1.0, 1.0, 1.0)

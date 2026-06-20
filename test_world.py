@@ -19,7 +19,7 @@ from intersect import intersect_world, Intersection
 
 from computation import prepare_computation
 
-from color_auxils import color_at, shade_hit, reflected_color
+from color_auxils import color_at, shade_hit, reflected_color, refracted_color
 
 
 def create_world():
@@ -280,5 +280,20 @@ def test_the_reflected_color_at_the_maximum_recursive_depth():
 
     comps = prepare_computation(i, r)
     color = reflected_color(w, comps, 0)
+
+    assert color.arrayize() == approx(Color().arrayize())
+
+def test_the_refracted_color_with_an_opaque_surface():
+    w = default_world()
+
+    s = w.objects[0]
+
+    r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+
+    xs = [Intersection(4, s), Intersection(6, s)]
+
+    comps = prepare_computation(xs[0], r, xs)
+
+    color = refracted_color(w, comps, 5)
 
     assert color.arrayize() == approx(Color().arrayize())
