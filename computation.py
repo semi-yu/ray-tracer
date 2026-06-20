@@ -16,6 +16,7 @@ class Computation:
                  normal, 
                  inside, 
                  over_point,
+                 under_point,
                  reflect,
                  n1,
                  n2):
@@ -31,6 +32,7 @@ class Computation:
         self._n2 = n2
 
         self._over_point = over_point
+        self._under_point = under_point
 
     @property
     def t(self):
@@ -55,6 +57,10 @@ class Computation:
     @property
     def inside(self):
         return self._inside
+    
+    @property
+    def under_point(self):
+        return self._under_point
 
     @property
     def over_point(self):
@@ -84,6 +90,7 @@ def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersect
     n.set_coord(-1 * n.coord if is_inside else n.coord)
 
     over_point = Point().set_coord(p.coord + n.coord * EPSILON)
+    under_point = Point().set_coord(p.coord - n.coord * EPSILON)
 
     n1, n2 = 1.0, 1.0
 
@@ -111,7 +118,8 @@ def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersect
         normal=n,
         inside=is_inside,
         over_point=over_point,
+        under_point=under_point,
         reflect=reflect(ray.direction, n),
-        n1 = n1,
-        n2 = n2
+        n1=n1,
+        n2=n2
     )

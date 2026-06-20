@@ -245,3 +245,19 @@ def test_finding_n1_and_n2_at_various_intersections():
         
         assert comps.n1 == n1
         assert comps.n2 == n2
+
+def test_the_under_point_is_offset_below_the_surface():
+    r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+
+    s = glass_sphere() \
+        .set_transform(
+            Transformation().translate(0, 0, 1)
+        )
+    
+    i = Intersection(5, s)
+    xs = [i]
+
+    comps = prepare_computation(i, r, xs)
+
+    assert comps.under_point.z > EPSILON / 2
+    assert comps.point.z < comps.under_point.z
