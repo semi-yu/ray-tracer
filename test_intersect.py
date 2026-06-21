@@ -7,7 +7,7 @@ from util.mathematics import Point, Vector, EPSILON
 from entities.ray import Ray
 from sphere import Sphere, glass_sphere
 from plane import Plane
-from intersect import intersect, Intersection
+from intersect import intersect, Intersection, schlick
 from util.transformation import Transformation
 
 from computation import prepare_computation
@@ -261,3 +261,19 @@ def test_the_under_point_is_offset_below_the_surface():
 
     assert comps.under_point.z > EPSILON / 2
     assert comps.point.z < comps.under_point.z
+
+def test_the_schlick_approximation_under_total_internal_reflection():
+    s = glass_sphere()
+
+    r = Ray(Point(0, 0, np.sqrt(2) / 2), Vector(0, 1, 0))
+
+    xs = [
+        Intersection(-np.sqrt(2) / 2, s),
+        Intersection( np.sqrt(2) / 2, s)
+    ]
+
+    comps = prepare_computation(xs[1], r, xs)
+
+    reflectance = schlick(comps)
+
+    assert reflectance == approx(1.0)

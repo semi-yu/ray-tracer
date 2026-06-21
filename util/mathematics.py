@@ -47,6 +47,9 @@ class Vector(Quadruple):
     def __mul__(self, other):
         if isinstance(other, (float, int, np.number)):
             return Vector().set_coord(self._coord * other)
+        
+    def dot(self, other) -> float:
+        return np.dot(self._coord, other.coord)
 
     def normalize(self):
         mag = np.linalg.norm(self._coord)

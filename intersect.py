@@ -29,3 +29,16 @@ def intersect_world(world, ray) -> list[Intersection]:
     result.sort(key=lambda s: s.t)
 
     return result
+
+def schlick(comp):
+    cos = comp.eye.dot(comp.normal)
+    print(cos)
+
+    if comp.n1 > comp.n2:
+        n = comp.n1 / comp.n2
+
+        sin2_t = n * n * (1.0 - cos * cos)
+
+        if sin2_t > 1.0: return 1.0
+
+    return 0.0
