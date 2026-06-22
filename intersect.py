@@ -32,7 +32,6 @@ def intersect_world(world, ray) -> list[Intersection]:
 
 def schlick(comp):
     cos = comp.eye.dot(comp.normal)
-    print(cos)
 
     if comp.n1 > comp.n2:
         n = comp.n1 / comp.n2
@@ -41,4 +40,9 @@ def schlick(comp):
 
         if sin2_t > 1.0: return 1.0
 
-    return 0.0
+        cos_t = np.sqrt(1.0 - sin2_t)
+
+        cos = cos_t
+    
+    r0 = ((comp.n1 - comp.n2) / (comp.n1 + comp.n2)) ** 2
+    return r0 + (1 - r0) * (1 - cos) ** 5

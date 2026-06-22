@@ -277,3 +277,32 @@ def test_the_schlick_approximation_under_total_internal_reflection():
     reflectance = schlick(comps)
 
     assert reflectance == approx(1.0)
+
+def test_the_schlick_approximation_with_a_perpendicular_viewing_angle():
+    s = glass_sphere()
+
+    r = Ray(Point(0, 0, 0), Vector(0, 1, 0))
+
+    xs = [
+        Intersection(-1, s),
+        Intersection( 1, s)
+    ]
+
+    comps = prepare_computation(xs[1], r, xs)
+
+    reflectance = schlick(comps)
+
+    assert reflectance == approx(0.04)
+
+def test_the_schlick_approximation_with_small_angle_and_n2_larger_than_n1():
+    s = glass_sphere()
+
+    r = Ray(Point(0, 0.99, -2), Vector(0, 0, 1))
+
+    xs = [Intersection(1.8589, s)]
+
+    comps = prepare_computation(xs[0], r, xs)
+
+    reflectance = schlick(comps)
+
+    assert reflectance == approx(0.48873, abs=1e-5)
