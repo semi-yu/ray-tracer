@@ -67,4 +67,4 @@ def glass_sphere():
             .set_material(
                 Material(
                     transparency = 1.0,
-                    reflective_index = 1.5))
+                    refractive_index = 1.5))

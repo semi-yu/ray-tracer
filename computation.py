@@ -99,7 +99,7 @@ def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersect
 
         for i in xs:
             if i == intersection:
-                n1 = 1.0 if not containers else containers[-1].material.reflective_index
+                n1 = 1.0 if not containers else containers[-1].material.refractive_index
             
             if i.object in containers:
                 containers.remove(i.object)
@@ -107,7 +107,7 @@ def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersect
                 containers.append(i.object)
             
             if i == intersection:
-                n2 = 1.0 if not containers else containers[-1].material.reflective_index
+                n2 = 1.0 if not containers else containers[-1].material.refractive_index
                 break
 
     return Computation(

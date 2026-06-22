@@ -13,7 +13,7 @@ class Material:
         shininess: float = 200.0,
         reflective: float = 0.0,
         transparency: float = 0.0,
-        reflective_index: float = 1.0,
+        refractive_index: float = 1.0,
         pattern: Pattern = None,
     ):
         self._color = color
@@ -23,7 +23,7 @@ class Material:
         self._shininess = shininess
         self._reflective = reflective
         self._transparency = transparency
-        self._reflective_index = reflective_index
+        self._refractive_index = refractive_index
 
         self._pattern = pattern
 
@@ -42,6 +42,10 @@ class Material:
     def set_specular(self, specular):
         self._specular = specular
         return self
+    
+    def set_reflective(self, reflective):
+        self._reflective = reflective
+        return self
 
     def set_pattern(self, pattern):
         self._pattern = pattern
@@ -51,8 +55,8 @@ class Material:
         self._transparency = transparency
         return self 
 
-    def set_reflective_index(self, reflective_index):
-        self._reflective_index = reflective_index
+    def set_refractive_index(self, refractive_index):
+        self._refractive_index = refractive_index
         return self
 
     @property
@@ -88,5 +92,5 @@ class Material:
         return self._transparency
 
     @property
-    def reflective_index(self):
-        return self._reflective_index
+    def refractive_index(self):
+        return self._refractive_index

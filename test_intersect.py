@@ -201,21 +201,21 @@ def test_finding_n1_and_n2_at_various_intersections():
             Transformation()
             .scale(2, 2, 2)
         )
-    a.material.set_reflective_index(1.5)
+    a.material.set_refractive_index(1.5)
 
     b = glass_sphere() \
         .set_transform(
             Transformation()
             .translate(0, 0, -0.25)
         )
-    b.material.set_reflective_index(2.0)
+    b.material.set_refractive_index(2.0)
 
     c = glass_sphere() \
         .set_transform(
             Transformation()
             .translate(0, 0, 0.25)
         )
-    c.material.set_reflective_index(2.5)
+    c.material.set_refractive_index(2.5)
 
     r = Ray(Point(0, 0, -4), Vector(0, 0, 1))
 

@@ -305,7 +305,7 @@ def test_the_refracted_color_at_the_maximum_recursive_depth():
 
     s = w.objects[0]
     s.material.set_transparency(1.0)
-    s.material.set_reflective_index(1.5)
+    s.material.set_refractive_index(1.5)
 
     r = Ray(Point(0, 0, np.sqrt(2) / 2), Vector(0, 1, 0))
 
@@ -332,7 +332,7 @@ def test_the_refracted_color_with_a_refracted_ray():
 
     b = w.objects[1]
     b.material.set_transparency(1.0)
-    b.material.set_reflective_index(1.5)
+    b.material.set_refractive_index(1.5)
 
     r = Ray(Point(0, 0, 0.1), Vector(0, 1, 0))
 
@@ -357,7 +357,7 @@ def test_shade_hit_with_a_transparency_material():
             .translate(0, -1, 0)
         )
     floor.material.set_transparency(0.5)
-    floor.material.set_reflective_index(1.5)
+    floor.material.set_refractive_index(1.5)
 
     ball = Sphere() \
             .set_transform(
