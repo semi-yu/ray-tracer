@@ -76,22 +76,14 @@ def refracted_color(world: World, comps: Computation, remaining: int) -> Color:
     cos_i = np.dot(comps.eye.coord, comps.normal.coord)
     sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i)
 
-    print(comps.n1, comps.n2, n_ratio)
-
     if sin2_t > 1.0: return Color()
-    
+
     cos_t = np.sqrt(1.0 - sin2_t)
     direction = comps.normal * (n_ratio * cos_i - cos_t) - \
                 comps.eye * n_ratio
-    
-    print(comps.eye, comps.normal)
-    
-    print(cos_i, sin2_t, cos_t)
 
     refract_ray = Ray(comps.under_point, direction)
 
-    print(refract_ray)
-    
     color = color_at(world, refract_ray, remaining - 1) * \
             comps.object.material.transparency
 
