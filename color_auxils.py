@@ -14,7 +14,7 @@ from light import lighting
 
 from computation import Computation
 
-from util.mathematics import Vector, Point
+from intersect import schlick
 
 
 REMANINING = 5
@@ -47,7 +47,14 @@ def shade_hit(world, comps, remaining: int = REMANINING) -> Color:
     reflected = reflected_color(world, comps, remaining)
     refracted = refracted_color(world, comps, remaining)
 
-    return surface + reflected + refracted
+    material = comps.object.material
+
+    if material.reflective > 0 and material.transparency > 0:
+        reflectance = schlick(comps)
+
+        return surface + reflected * reflectance + refracted * (1 - reflectance)
+    else:
+        return surface + reflected + refracted
 
 
 def reflected_color(world: World, comps: Computation, remaining: int = REMANINING) -> Color:
