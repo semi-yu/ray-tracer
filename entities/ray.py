@@ -39,7 +39,7 @@ def transform(ray: Ray, transform_matrix: Transformation) -> Ray:
     return nray
 
 
-def position(ray, t):
+def position(ray, t) -> Point:
     result = Point()
     result.set_coord(ray.origin.coord + t * ray.direction.coord)
 
