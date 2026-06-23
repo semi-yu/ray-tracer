@@ -28,7 +28,7 @@ class Shape:
         return
 
     def local_normal_at(self, point: Point) -> Vector:
-        return Vector().set_coord(point)
+        return Vector().set_coord(point.coord)
 
     @property
     def transform(self):

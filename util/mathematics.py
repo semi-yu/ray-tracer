@@ -40,6 +40,10 @@ class Vector(Quadruple):
     def __init__(self, x=0, y=0, z=0):
         super().__init__(x, y, z, 0)
 
+    def set_coord(self, coord):
+        self._coord = np.array([coord[0], coord[1], coord[2], 0.0])
+        return self
+
     def __sub__(self, other):
         if isinstance(other, Vector):
             return Vector().set_coord(self._coord - other.coord)
@@ -68,3 +72,7 @@ class Vector(Quadruple):
 class Point(Quadruple):
     def __init__(self, x=0, y=0, z=0):
         super().__init__(x, y, z, 1)
+
+    def set_coord(self, coord):
+        self._coord = np.array([coord[0], coord[1], coord[2], 1.0])
+        return self
