@@ -60,3 +60,22 @@ def test_the_defulat_minimum_and_maximum_for_a_cylinder():
 
     assert s.minimum == approx(float('-inf'))
     assert s.maximum == approx(float('inf'))
+
+def test_intersecting_a_constrained_cylinder():
+    s = Cylinder(minimum = 1, maximum = 2)
+
+    defined_ray = [
+        (Point(0, 1.5,  0), Vector(0.1, 1, 0), 0, ),
+        (Point(0,   3, -5), Vector(  0, 0, 1), 0, ),
+        (Point(0,   0, -5), Vector(  0, 0, 1), 0, ),
+        (Point(0,   2, -5), Vector(  0, 0, 1), 0, ),
+        (Point(0,   1, -5), Vector(  0, 0, 1), 0, ),
+        (Point(0, 1.5, -2), Vector(  0, 0, 1), 2, ),
+    ]
+
+    for origin, direction, count in defined_ray:
+        ray = Ray(origin, direction.normalize())
+
+        xs = s.local_intersect(ray)
+
+        assert len(xs) == count

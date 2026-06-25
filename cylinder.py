@@ -28,7 +28,19 @@ class Cylinder(Shape):
         t1 = (-b - np.sqrt(disc)) / (2 * a)
         t2 = (-b + np.sqrt(disc)) / (2 * a)
 
-        return [Intersection(t1, self), Intersection(t2, self)]
+        if t1 > t2: t1, t2 = t2, t1
+
+        xs = []
+        
+        y0 = ray.origin.y + t1 * ray.direction.y
+        if self._minimum < y0 < self._maximum:
+            xs.append(Intersection(t1, self))
+        
+        y1 = ray.origin.y + t1 * ray.direction.y
+        if self._minimum < y1 < self._maximum:
+            xs.append(Intersection(t2, self))
+
+        return xs
 
     def local_normal_at(self, point: Point) -> Vector:
         return Vector(point.x, 0, point.z)
