@@ -79,3 +79,26 @@ def test_intersecting_a_constrained_cylinder():
         xs = s.local_intersect(ray)
 
         assert len(xs) == count
+
+def test_the_default_closed_value_for_a_cylinder():
+    s = Cylinder()
+
+    assert s.closed == False
+
+def test_intersecting_the_caps_of_a_closed_cylinder():
+    s = Cylinder(minimum = 1, maximum = 2, closed = True)
+
+    defined_xs = [
+        (Point(0,  3,  0), Vector(0, -1, 0), 2), 
+        (Point(0,  3, -2), Vector(0, -1, 2), 2), 
+        (Point(0,  4, -2), Vector(0, -1, 1), 2), 
+        (Point(0,  0, -2), Vector(0,  1, 2), 2), 
+        (Point(0, -1, -2), Vector(0,  1, 1), 2), 
+    ]
+
+    for origin, direction, count in defined_xs:
+        ray = Ray(origin, direction.normalize())
+
+        xs = s.local_intersect(ray)
+
+        assert len(xs) == count
