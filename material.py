@@ -34,15 +34,15 @@ class Material:
     def set_ambient(self, ambient):
         self._ambient = ambient
         return self
-    
+
     def set_diffuse(self, diffuse):
         self._diffuse = diffuse
         return self
-    
+
     def set_specular(self, specular):
         self._specular = specular
         return self
-    
+
     def set_reflective(self, reflective):
         self._reflective = reflective
         return self
@@ -50,10 +50,10 @@ class Material:
     def set_pattern(self, pattern):
         self._pattern = pattern
         return self
-    
+
     def set_transparency(self, transparency):
         self._transparency = transparency
-        return self 
+        return self
 
     def set_refractive_index(self, refractive_index):
         self._refractive_index = refractive_index
@@ -82,7 +82,7 @@ class Material:
     @property
     def pattern(self):
         return self._pattern
-    
+
     @property
     def reflective(self):
         return self._reflective

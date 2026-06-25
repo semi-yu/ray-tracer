@@ -10,19 +10,20 @@ from world import World
 from camera import Camera, render
 from pattern import StripePattern
 
+
 def main():
-    stripe = StripePattern(Color(0.2, 0.2, 0.2), Color(0.8, 0.8, 0.8), Transformation()) \
-            .set_transform(Transformation().scale(0.2, 0.2, 0.2))
+    stripe = StripePattern(
+        Color(0.2, 0.2, 0.2), Color(0.8, 0.8, 0.8), Transformation()
+    ).set_transform(Transformation().scale(0.2, 0.2, 0.2))
 
     floor = (
         Cube()
-        .set_transform(Transformation().scale(10.0, 0.1, 10.0).translate(0.0, -0.1, 0.0))
+        .set_transform(
+            Transformation().scale(10.0, 0.1, 10.0).translate(0.0, -0.1, 0.0)
+        )
         .set_material(
             Material(
-                color=Color(1.0, 1.0, 1.0),
-                diffuse=0.7,
-                specular=0.3,
-                pattern=stripe
+                color=Color(1.0, 1.0, 1.0), diffuse=0.7, specular=0.3, pattern=stripe
             )
         )
     )
@@ -32,16 +33,10 @@ def main():
         .set_transform(
             Transformation()
             .scale(0.5, 0.8, 0.5)
-            .rotate(np.pi / 4, axis='y')
+            .rotate(np.pi / 4, axis="y")
             .translate(-1.5, 0.8, -0.5)
         )
-        .set_material(
-            Material(
-                color=Color(0.8, 0.2, 0.2),
-                diffuse=0.7,
-                specular=0.3
-            )
-        )
+        .set_material(Material(color=Color(0.8, 0.2, 0.2), diffuse=0.7, specular=0.3))
     )
 
     center_cube = (
@@ -49,34 +44,27 @@ def main():
         .set_transform(
             Transformation()
             .scale(0.6, 0.6, 0.6)
-            .rotate(np.pi / 6, axis='x')
-            .rotate(np.pi / 4, axis='y')
+            .rotate(np.pi / 6, axis="x")
+            .rotate(np.pi / 4, axis="y")
             .translate(0.0, 0.6, 0.0)
         )
         .set_material(
             Material(
-                color=Color(0.1, 0.1, 0.1),
-                diffuse=0.2,
-                specular=0.9,
-                reflective=0.8
+                color=Color(0.1, 0.1, 0.1), diffuse=0.2, specular=0.9, reflective=0.8
             )
         )
     )
 
     right_cube = (
         Cube()
-        .set_transform(
-            Transformation()
-            .scale(0.5, 0.5, 0.5)
-            .translate(1.5, 0.5, -0.5)
-        )
+        .set_transform(Transformation().scale(0.5, 0.5, 0.5).translate(1.5, 0.5, -0.5))
         .set_material(
             Material(
                 color=Color(0.0, 0.0, 0.0),
                 diffuse=0.0,
                 specular=0.9,
                 transparency=0.9,
-                refractive_index=1.5
+                refractive_index=1.5,
             )
         )
     )
@@ -95,6 +83,7 @@ def main():
 
     canvas = render(cam, world)
     canvas.to_ppm()
+
 
 if __name__ == "__main__":
     main()

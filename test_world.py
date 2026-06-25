@@ -23,6 +23,7 @@ from color_auxils import color_at, shade_hit, reflected_color, refracted_color
 
 from pattern import Pattern
 
+
 def create_world():
     return World()
 
@@ -179,6 +180,7 @@ def test_shade_hit_is_given_an_intersection_in_shadow():
 
     assert c.arrayize() == approx(Color(0.1, 0.1, 0.1).arrayize())
 
+
 def test_the_reflected_color_for_a_nonreflective_material():
     w = default_world()
 
@@ -186,76 +188,73 @@ def test_the_reflected_color_for_a_nonreflective_material():
 
     s = w.objects[1]
     s.material.set_ambient(1.0)
-    
+
     i = Intersection(1.0, s)
 
     comps = prepare_computation(i, r)
     color = reflected_color(w, comps)
-    
+
     assert color.arrayize() == approx(Color().arrayize())
+
 
 def test_the_reflected_color_for_a_reflective_material():
     w = default_world()
 
-    s = Plane() \
-        .set_material(
-            Material(reflective=0.5)) \
-        .set_transform(
-            Transformation()
-            .translate(0, -1, 0)
-        )
-    
+    s = (
+        Plane()
+        .set_material(Material(reflective=0.5))
+        .set_transform(Transformation().translate(0, -1, 0))
+    )
+
     w.add_object(s)
 
-    r = Ray(Point(0, 0, -3), Vector(0, - np.sqrt(2) / 2, np.sqrt(2) / 2))
+    r = Ray(Point(0, 0, -3), Vector(0, -np.sqrt(2) / 2, np.sqrt(2) / 2))
     i = Intersection(np.sqrt(2), s)
 
     comps = prepare_computation(i, r)
     color = reflected_color(w, comps)
 
-    assert color.arrayize() == approx(Color(0.19032, 0.2379, 0.14274).arrayize(), abs=1e-4)
+    assert color.arrayize() == approx(
+        Color(0.19032, 0.2379, 0.14274).arrayize(), abs=1e-4
+    )
+
 
 def test_shade_hit_with_a_reflective_material():
     w = default_world()
 
-    s = Plane() \
-        .set_material(
-            Material(reflective=0.5)) \
-        .set_transform(
-            Transformation()
-            .translate(0, -1, 0)
-        )
-    
+    s = (
+        Plane()
+        .set_material(Material(reflective=0.5))
+        .set_transform(Transformation().translate(0, -1, 0))
+    )
+
     w.add_object(s)
 
-    r = Ray(Point(0, 0, -3), Vector(0, - np.sqrt(2) / 2, np.sqrt(2) / 2))
+    r = Ray(Point(0, 0, -3), Vector(0, -np.sqrt(2) / 2, np.sqrt(2) / 2))
     i = Intersection(np.sqrt(2), s)
 
     comps = prepare_computation(i, r)
     color = shade_hit(w, comps)
 
-    assert color.arrayize() == approx(Color(0.87677, 0.92436, 0.82918).arrayize(), abs=1e-4)
+    assert color.arrayize() == approx(
+        Color(0.87677, 0.92436, 0.82918).arrayize(), abs=1e-4
+    )
+
 
 def test_color_at_with_mutually_reflective_surfaces():
-    w = World() \
-        .set_light(
-            Light(
-                Point(0, 0, 0),
-                Color(1.0, 1.0, 1.0)
-            )
-        )
-        
-    lower = Plane() \
-            .set_material(Material(reflective = 1.0)) \
-            .set_transform(
-                Transformation().translate(0, -1, 0)
-            )
+    w = World().set_light(Light(Point(0, 0, 0), Color(1.0, 1.0, 1.0)))
 
-    upper = Plane() \
-            .set_material(Material(reflective = 1.0)) \
-            .set_transform(
-                Transformation().translate(0, 1, 0)
-            )
+    lower = (
+        Plane()
+        .set_material(Material(reflective=1.0))
+        .set_transform(Transformation().translate(0, -1, 0))
+    )
+
+    upper = (
+        Plane()
+        .set_material(Material(reflective=1.0))
+        .set_transform(Transformation().translate(0, 1, 0))
+    )
 
     w.add_object(lower).add_object(upper)
 
@@ -263,26 +262,26 @@ def test_color_at_with_mutually_reflective_surfaces():
 
     assert color_at(w, r)
 
+
 def test_the_reflected_color_at_the_maximum_recursive_depth():
     w = default_world()
 
-    s = Plane() \
-        .set_material(
-            Material(reflective=0.5)) \
-        .set_transform(
-            Transformation()
-            .translate(0, -1, 0)
-        )
-    
+    s = (
+        Plane()
+        .set_material(Material(reflective=0.5))
+        .set_transform(Transformation().translate(0, -1, 0))
+    )
+
     w.add_object(s)
 
-    r = Ray(Point(0, 0, -3), Vector(0, - np.sqrt(2) / 2, np.sqrt(2) / 2))
+    r = Ray(Point(0, 0, -3), Vector(0, -np.sqrt(2) / 2, np.sqrt(2) / 2))
     i = Intersection(np.sqrt(2), s)
 
     comps = prepare_computation(i, r)
     color = reflected_color(w, comps, 0)
 
     assert color.arrayize() == approx(Color().arrayize())
+
 
 def test_the_refracted_color_with_an_opaque_surface():
     w = default_world()
@@ -309,24 +308,20 @@ def test_the_refracted_color_at_the_maximum_recursive_depth():
 
     r = Ray(Point(0, 0, np.sqrt(2) / 2), Vector(0, 1, 0))
 
-    xs = [
-        Intersection(-np.sqrt(2) / 2, s),
-        Intersection( np.sqrt(2) / 2, s)
-    ]
+    xs = [Intersection(-np.sqrt(2) / 2, s), Intersection(np.sqrt(2) / 2, s)]
 
     comps = prepare_computation(xs[1], r, xs)
     color = refracted_color(w, comps, 5)
-    
+
     assert color.arrayize() == approx(Color().arrayize())
+
 
 def test_the_refracted_color_with_a_refracted_ray():
     w = default_world()
 
     a = w.objects[0]
     a.material.set_ambient(1.0)
-    a.material.set_pattern(
-        Pattern(Transformation())
-    )
+    a.material.set_pattern(Pattern(Transformation()))
     a.material.set_diffuse(0.0)
     a.material.set_specular(0.0)
 
@@ -339,8 +334,8 @@ def test_the_refracted_color_with_a_refracted_ray():
     xs = [
         Intersection(-0.9899, a),
         Intersection(-0.4899, b),
-        Intersection( 0.4899, b),
-        Intersection( 0.9899, a),
+        Intersection(0.4899, b),
+        Intersection(0.9899, a),
     ]
 
     comps = prepare_computation(xs[2], r, xs)
@@ -348,53 +343,45 @@ def test_the_refracted_color_with_a_refracted_ray():
 
     assert color.arrayize() == approx(Color(0, 0.99888, 0.04725).arrayize(), abs=1e-4)
 
+
 def test_shade_hit_with_a_transparency_material():
     w = default_world()
 
-    floor = Plane() \
-        .set_transform(
-            Transformation()
-            .translate(0, -1, 0)
-        )
+    floor = Plane().set_transform(Transformation().translate(0, -1, 0))
     floor.material.set_transparency(0.5)
     floor.material.set_refractive_index(1.5)
 
-    ball = Sphere() \
-            .set_transform(
-                Transformation()
-                .translate(0, -3.5, -0.5)
-            )
+    ball = Sphere().set_transform(Transformation().translate(0, -3.5, -0.5))
     ball.material.set_color(Color(1.0, 0, 0))
     ball.material.set_ambient(0.5)
 
     w.add_object(floor)
     w.add_object(ball)
 
-    r = Ray(Point(0, 0, -3), Vector(0, - np.sqrt(2) / 2, np.sqrt(2) / 2))
+    r = Ray(Point(0, 0, -3), Vector(0, -np.sqrt(2) / 2, np.sqrt(2) / 2))
     xs = [Intersection(np.sqrt(2), floor)]
 
     comps = prepare_computation(xs[0], r, xs)
     color = shade_hit(w, comps, 5)
 
-    assert color.arrayize() == approx(Color(0.93642, 0.68642, 0.68642).arrayize(), abs=1e-5)
+    assert color.arrayize() == approx(
+        Color(0.93642, 0.68642, 0.68642).arrayize(), abs=1e-5
+    )
+
 
 def test_shade_hit_with_a_reflective_transparent_material():
     w = default_world()
 
     r = Ray(Point(0, 0, -3), Vector(0, -np.sqrt(2) / 2, np.sqrt(2) / 2))
 
-
-    floor = Plane() \
-            .set_transform(Transformation().translate(0, -1, 0))
+    floor = Plane().set_transform(Transformation().translate(0, -1, 0))
     floor.material.set_reflective(0.5)
     floor.material.set_transparency(0.5)
     floor.material.set_refractive_index(1.5)
-    
-    ball = Sphere() \
-           .set_transform(Transformation().translate(0, -3.5, -0.5))
+
+    ball = Sphere().set_transform(Transformation().translate(0, -3.5, -0.5))
     ball.material.set_color(Color(1.0, 0.0, 0.0))
-    ball.material.set_ambient(0.5)\
-    
+    ball.material.set_ambient(0.5)
     w.add_object(floor).add_object(ball)
 
     xs = [Intersection(np.sqrt(2), floor)]
@@ -403,4 +390,6 @@ def test_shade_hit_with_a_reflective_transparent_material():
 
     color = shade_hit(w, comps, 5)
 
-    assert color.arrayize() == approx(Color(0.93391, 0.69643, 0.69243).arrayize(), abs=1e-5)
+    assert color.arrayize() == approx(
+        Color(0.93391, 0.69643, 0.69243).arrayize(), abs=1e-5
+    )

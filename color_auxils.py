@@ -40,8 +40,8 @@ def shade_hit(world, comps, remaining: int = REMANINING) -> Color:
         comps.over_point,
         comps.eye,
         comps.normal,
-        in_shadow = in_shadow,
-        object    = comps.object
+        in_shadow=in_shadow,
+        object=comps.object,
     )
 
     reflected = reflected_color(world, comps, remaining)
@@ -57,34 +57,39 @@ def shade_hit(world, comps, remaining: int = REMANINING) -> Color:
         return surface + reflected + refracted
 
 
-def reflected_color(world: World, comps: Computation, remaining: int = REMANINING) -> Color:
-    if remaining <= 0: return Color()
+def reflected_color(
+    world: World, comps: Computation, remaining: int = REMANINING
+) -> Color:
+    if remaining <= 0:
+        return Color()
 
     if math.isclose(0.0, comps.object.material.reflective):
         return Color()
-    
+
     reflected_ray = Ray(comps.over_point, comps.reflect)
     color = color_at(world, reflected_ray, remaining - 1)
 
     return color * comps.object.material.reflective
 
+
 def refracted_color(world: World, comps: Computation, remaining: int) -> Color:
     if comps.object.material.transparency == 0:
         return Color()
-    
+
     n_ratio = comps.n1 / comps.n2
     cos_i = np.dot(comps.eye.coord, comps.normal.coord)
     sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i)
 
-    if sin2_t > 1.0: return Color()
+    if sin2_t > 1.0:
+        return Color()
 
     cos_t = np.sqrt(1.0 - sin2_t)
-    direction = comps.normal * (n_ratio * cos_i - cos_t) - \
-                comps.eye * n_ratio
+    direction = comps.normal * (n_ratio * cos_i - cos_t) - comps.eye * n_ratio
 
     refract_ray = Ray(comps.under_point, direction)
 
-    color = color_at(world, refract_ray, remaining - 1) * \
-            comps.object.material.transparency
+    color = (
+        color_at(world, refract_ray, remaining - 1) * comps.object.material.transparency
+    )
 
     return color

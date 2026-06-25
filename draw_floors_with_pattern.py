@@ -17,12 +17,9 @@ from pattern import StripePattern
 
 
 def main():
-    stripe = StripePattern(Color(233 / 255, 148 / 255, 188 / 255), Color(1.0, 1.0, 1.0)) \
-            .set_transform(
-                Transformation()
-                .scale(0.1, 0.1, 0.1)
-                .rotate(np.pi / 8, axis = 'z')
-            )
+    stripe = StripePattern(
+        Color(233 / 255, 148 / 255, 188 / 255), Color(1.0, 1.0, 1.0)
+    ).set_transform(Transformation().scale(0.1, 0.1, 0.1).rotate(np.pi / 8, axis="z"))
 
     floor = Plane().set_material(
         Material(color=Color(1.0, 1.0, 1.0), specular=0.0, pattern=stripe)

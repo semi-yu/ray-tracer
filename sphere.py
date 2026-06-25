@@ -62,9 +62,6 @@ class Sphere:
     def material(self) -> Material:
         return self._material
 
+
 def glass_sphere():
-        return Sphere() \
-            .set_material(
-                Material(
-                    transparency = 1.0,
-                    refractive_index = 1.5))
+    return Sphere().set_material(Material(transparency=1.0, refractive_index=1.5))

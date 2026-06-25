@@ -16,16 +16,25 @@ def check_cap(ray, t, y):
 
 
 class Cone(Shape):
-    def __init__(self, minimum: float = float('-inf'), maximum: float = float('inf'), closed = False):
+    def __init__(
+        self,
+        minimum: float = float("-inf"),
+        maximum: float = float("inf"),
+        closed=False,
+    ):
         self._minimum = minimum
         self._maximum = maximum
         self._closed = closed
-    
+
     def local_intersect(self, ray: Ray) -> list[Intersection]:
         a = ray.direction.x**2 - ray.direction.y**2 + ray.direction.z**2
-        b = 2 * (ray.origin.x * ray.direction.x - ray.origin.y * ray.direction.y + ray.origin.z * ray.direction.z)
+        b = 2 * (
+            ray.origin.x * ray.direction.x
+            - ray.origin.y * ray.direction.y
+            + ray.origin.z * ray.direction.z
+        )
         c = ray.origin.x**2 - ray.origin.y**2 + ray.origin.z**2
-        
+
         xs = []
 
         if math.isclose(a, 0.0):
@@ -36,13 +45,13 @@ class Cone(Shape):
                     xs.append(Intersection(t, self))
         else:
             disc = b**2 - 4 * a * c
-            if disc < 0: 
+            if disc < 0:
                 return []
 
             t1 = (-b - np.sqrt(disc)) / (2 * a)
             t2 = (-b + np.sqrt(disc)) / (2 * a)
 
-            if t1 > t2: 
+            if t1 > t2:
                 t1, t2 = t2, t1
 
             y0 = ray.origin.y + t1 * ray.direction.y
@@ -55,18 +64,19 @@ class Cone(Shape):
 
         self.intersect_caps(ray, xs)
         return xs
-    
+
     def intersect_caps(self, ray: Ray, xs: list[Intersection]) -> None:
         if not self._closed or math.isclose(ray.direction.y, 0.0):
             return
 
         t = (self.minimum - ray.origin.y) / ray.direction.y
-        if check_cap(ray, t, self.minimum): xs.append(Intersection(t, self))
+        if check_cap(ray, t, self.minimum):
+            xs.append(Intersection(t, self))
 
         t = (self.maximum - ray.origin.y) / ray.direction.y
-        if check_cap(ray, t, self.maximum): xs.append(Intersection(t, self))
+        if check_cap(ray, t, self.maximum):
+            xs.append(Intersection(t, self))
 
-    
     def local_normal_at(self, point: Point) -> Vector:
         dist = point.x**2 + point.z**2
 
@@ -77,7 +87,8 @@ class Cone(Shape):
             return Vector(0, -1, 0)
 
         y = np.sqrt(dist)
-        if point.y > 0: y = -y
+        if point.y > 0:
+            y = -y
 
         if math.isclose(point.x, 0.0) and math.isclose(point.z, 0.0):
             return Vector(0, 0, 0)
@@ -85,7 +96,7 @@ class Cone(Shape):
         return Vector(point.x, y, point.z)
 
     @property
-    def minimum(self): 
+    def minimum(self):
         return self._minimum
 
     @property

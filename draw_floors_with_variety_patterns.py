@@ -17,24 +17,21 @@ from pattern import StripePattern, GradientPattern, RingPattern
 
 
 def main():
-    stripe = StripePattern(Color(233 / 255, 148 / 255, 188 / 255), Color(1.0, 1.0, 1.0), Transformation()) \
-            .set_transform(
-                Transformation()
-                .scale(0.1, 0.1, 0.1)
-                .rotate(np.pi / 8, axis = 'z')
-            )
-    
-    gradient = GradientPattern(Color(250/255, 104/255, 41/255), Color(0/255, 150/255, 255/255), Transformation()) \
-            .set_transform(
-                Transformation()
-                .translate(-20.0, -20.0, -20.0)
-            )
+    stripe = StripePattern(
+        Color(233 / 255, 148 / 255, 188 / 255), Color(1.0, 1.0, 1.0), Transformation()
+    ).set_transform(Transformation().scale(0.1, 0.1, 0.1).rotate(np.pi / 8, axis="z"))
 
-    ring = RingPattern(Color(0, 0, 0),
-                       Color(1, 1, 1),
-                       Transformation()
-                       .scale(0.2, 0.2, 0.2)
-                       .rotate(np.pi / 2, axis='x'))
+    gradient = GradientPattern(
+        Color(250 / 255, 104 / 255, 41 / 255),
+        Color(0 / 255, 150 / 255, 255 / 255),
+        Transformation(),
+    ).set_transform(Transformation().translate(-20.0, -20.0, -20.0))
+
+    ring = RingPattern(
+        Color(0, 0, 0),
+        Color(1, 1, 1),
+        Transformation().scale(0.2, 0.2, 0.2).rotate(np.pi / 2, axis="x"),
+    )
 
     floor = Plane().set_material(
         Material(color=Color(1.0, 1.0, 1.0), specular=0.0, pattern=stripe)

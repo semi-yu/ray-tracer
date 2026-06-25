@@ -1,4 +1,4 @@
-import math 
+import math
 import numpy as np
 
 from util.mathematics import Vector, Point, EPSILON
@@ -8,6 +8,7 @@ from intersect import Intersection
 
 from shape import Shape
 
+
 def check_cap(ray, t):
     x = ray.origin.x + t * ray.direction.x
     z = ray.origin.z + t * ray.direction.z
@@ -16,14 +17,19 @@ def check_cap(ray, t):
 
 
 class Cylinder(Shape):
-    def __init__(self, minimum: float = float('-inf'), maximum: float = float('inf'), closed = False):
+    def __init__(
+        self,
+        minimum: float = float("-inf"),
+        maximum: float = float("inf"),
+        closed=False,
+    ):
         self._minimum = minimum
         self._maximum = maximum
         self._closed = closed
 
     def local_intersect(self, ray: Ray) -> list[Intersection]:
         a = ray.direction.x * ray.direction.x + ray.direction.z * ray.direction.z
-        
+
         xs = []
 
         if not math.isclose(a, 0.0):
@@ -32,12 +38,14 @@ class Cylinder(Shape):
 
             disc = b * b - 4 * a * c
 
-            if disc < 0: return []
+            if disc < 0:
+                return []
 
             t1 = (-b - np.sqrt(disc)) / (2 * a)
             t2 = (-b + np.sqrt(disc)) / (2 * a)
 
-            if t1 > t2: t1, t2 = t2, t1
+            if t1 > t2:
+                t1, t2 = t2, t1
 
             y0 = ray.origin.y + t1 * ray.direction.y
             if self._minimum < y0 < self._maximum:
@@ -53,10 +61,10 @@ class Cylinder(Shape):
 
     def local_normal_at(self, point: Point) -> Vector:
         dist = point.x * point.x + point.z * point.z
-        
+
         if dist < 1.0 and point.y >= self.maximum - EPSILON:
-            return Vector(0,  1, 0)
-        
+            return Vector(0, 1, 0)
+
         if dist < 1.0 and point.y <= self.minimum + EPSILON:
             return Vector(0, -1, 0)
 
@@ -67,14 +75,15 @@ class Cylinder(Shape):
             return
 
         t = (self.minimum - ray.origin.y) / ray.direction.y
-        if check_cap(ray, t): xs.append(Intersection(t, self))
+        if check_cap(ray, t):
+            xs.append(Intersection(t, self))
 
         t = (self.maximum - ray.origin.y) / ray.direction.y
-        if check_cap(ray, t): xs.append(Intersection(t, self))
-
+        if check_cap(ray, t):
+            xs.append(Intersection(t, self))
 
     @property
-    def minimum(self): 
+    def minimum(self):
         return self._minimum
 
     @property

@@ -20,12 +20,14 @@ class Light:
         return self._intensity
 
 
-def lighting(material, light, position, eye, normal, in_shadow=False, object = None) -> Color:
+def lighting(
+    material, light, position, eye, normal, in_shadow=False, object=None
+) -> Color:
     if material.pattern is not None:
         base_color = material.pattern.pattern_at_object(object, position).arrayize()
     else:
         base_color = material.color.arrayize()
-        
+
     effective_color = base_color * light.intensity.arrayize()
 
     diff = light.position.coord - position.coord

@@ -9,11 +9,11 @@ from util.transformation import Transformation
 class Pattern:
     def __init__(self, transform):
         self._transform = transform
-    
+
     def set_transform(self, transform: Transformation):
         self._transform = transform
         return self
-    
+
     def pattern_at(self, point: Point) -> Color:
         return Color(point.x, point.y, point.z)
 
@@ -23,16 +23,17 @@ class Pattern:
         obj_point = np.linalg.inv(obj.transform.matrix) @ point.coord
         pat_point = np.linalg.inv(self._transform.matrix) @ obj_point
 
-        result  = Point().set_coord(pat_point)
+        result = Point().set_coord(pat_point)
 
         return self.pattern_at(result)
 
     @property
-    def transform(self): return self._transform
+    def transform(self):
+        return self._transform
 
 
 class StripePattern(Pattern):
-    def __init__(self, a: Color, b: Color, transform = Transformation()):
+    def __init__(self, a: Color, b: Color, transform=Transformation()):
         super().__init__(transform)
         self._a = a
         self._b = b
@@ -49,16 +50,18 @@ class StripePattern(Pattern):
     def b(self):
         return self._b
 
+
 class GradientPattern(Pattern):
     def __init__(self, a: Color, b: Color, transform):
         super().__init__(transform)
         self._a = a
         self._b = b
-    
+
     def pattern_at(self, point: Point) -> Color:
         distance = self._b - self._a
         fraction = 1.0 - 2.0 * abs(point.x - np.floor(point.x) - 0.5)
         return self._a + distance * fraction
+
 
 class RingPattern(Pattern):
     def __init__(self, a: Color, b: Color, transform):
@@ -70,11 +73,11 @@ class RingPattern(Pattern):
         norm = np.hypot(point.x, point.z)
         return self._a if int(np.floor(norm)) % 2 == 0 else self._b
 
+
 class CheckerPattern(Pattern):
     def __init__(self, a: Color, b: Color, transform):
         super().__init__(transform)
         self._a = a
         self._b = b
 
-    def pattern_at(self, point: Point) -> Color:
-        ...
+    def pattern_at(self, point: Point) -> Color: ...

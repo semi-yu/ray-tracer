@@ -7,19 +7,22 @@ from reflect import reflect
 
 from intersect import Intersection
 
+
 class Computation:
-    def __init__(self, 
-                 t, 
-                 object, 
-                 point, 
-                 eye, 
-                 normal, 
-                 inside, 
-                 over_point,
-                 under_point,
-                 reflect,
-                 n1,
-                 n2):
+    def __init__(
+        self,
+        t,
+        object,
+        point,
+        eye,
+        normal,
+        inside,
+        over_point,
+        under_point,
+        reflect,
+        n1,
+        n2,
+    ):
         self._t = t
         self._object = object
         self._point = point
@@ -57,7 +60,7 @@ class Computation:
     @property
     def inside(self):
         return self._inside
-    
+
     @property
     def under_point(self):
         return self._under_point
@@ -69,17 +72,19 @@ class Computation:
     @property
     def reflect(self):
         return self._reflect
-    
+
     @property
     def n1(self):
         return self._n1
-    
+
     @property
     def n2(self):
         return self._n2
 
 
-def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersection] = None):
+def prepare_computation(
+    intersection: Intersection, ray: Ray, xs: list[Intersection] = None
+):
     v = Vector()
     v.set_coord(-1 * ray.direction.coord)
     p = position(ray, intersection.t)
@@ -100,12 +105,12 @@ def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersect
         for i in xs:
             if i == intersection:
                 n1 = 1.0 if not containers else containers[-1].material.refractive_index
-            
+
             if i.object in containers:
                 containers.remove(i.object)
             else:
                 containers.append(i.object)
-            
+
             if i == intersection:
                 n2 = 1.0 if not containers else containers[-1].material.refractive_index
                 break
@@ -121,5 +126,5 @@ def prepare_computation(intersection: Intersection, ray: Ray, xs: list[Intersect
         under_point=under_point,
         reflect=reflect(ray.direction, n),
         n1=n1,
-        n2=n2
+        n2=n2,
     )

@@ -8,21 +8,22 @@ from shape import Shape
 from material import Material
 from util.transformation import Transformation
 
+
 def check_axis(origin: Point, direction: Vector):
-        tmin_numerator = -1 - origin
-        tmax_numerator =  1 - origin
+    tmin_numerator = -1 - origin
+    tmax_numerator = 1 - origin
 
-        if abs(direction) >= EPSILON:
-            tmin = tmin_numerator / direction
-            tmax = tmax_numerator / direction
-        else:
-            tmin = tmin_numerator * float('inf')
-            tmax = tmax_numerator * float('inf')
+    if abs(direction) >= EPSILON:
+        tmin = tmin_numerator / direction
+        tmax = tmax_numerator / direction
+    else:
+        tmin = tmin_numerator * float("inf")
+        tmax = tmax_numerator * float("inf")
 
-        if tmin > tmax:
-            tmin, tmax = tmax, tmin
+    if tmin > tmax:
+        tmin, tmax = tmax, tmin
 
-        return tmin, tmax
+    return tmin, tmax
 
 
 class Cube(Shape):
@@ -34,11 +35,12 @@ class Cube(Shape):
         xtmin, xtmax = check_axis(ray.origin.x, ray.direction.x)
         ytmin, ytmax = check_axis(ray.origin.y, ray.direction.y)
         ztmin, ztmax = check_axis(ray.origin.z, ray.direction.z)
-        
+
         tmin = max(xtmin, ytmin, ztmin)
         tmax = min(xtmax, ytmax, ztmax)
 
-        if tmin > tmax: return []
+        if tmin > tmax:
+            return []
 
         return [
             Intersection(tmin, self),

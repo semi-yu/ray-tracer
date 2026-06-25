@@ -10,7 +10,7 @@ class Color:
 
     def __repr__(self):
         return f"Color({self.r}, {self.g}, {self.b})"
-    
+
     def __add__(self, other):
         calculated = np.array([self.r + other.r, self.g + other.g, self.b + other.b])
         return Color().set_coord(calculated)
@@ -36,15 +36,19 @@ class Color:
     def set_coord(self, coord):
         self._r, self._g, self._b = coord[0], coord[1], coord[2]
         return self
-    
-    @property
-    def r(self): return self._r
-    
-    @property
-    def g(self): return self._g
 
     @property
-    def b(self): return self._b
+    def r(self):
+        return self._r
+
+    @property
+    def g(self):
+        return self._g
+
+    @property
+    def b(self):
+        return self._b
+
 
 class Canvas:
     def __init__(self, width: int, height: int):

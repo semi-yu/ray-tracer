@@ -28,7 +28,7 @@ def test_lighting_with_the_eye_between_the_light_and_the_surface():
 
     light = Light(Point(0, 0, -10), Color(1.0, 1.0, 1.0))
 
-    result = lighting(m, light, pos, eye, normal, object = Sphere())
+    result = lighting(m, light, pos, eye, normal, object=Sphere())
 
     assert result.arrayize() == approx(Color(1.9, 1.9, 1.9).arrayize(), abs=EPSILON)
 
@@ -42,7 +42,7 @@ def test_lighting_with_the_eye_between_light_and_surface_eye_offset_45():
 
     light = Light(Point(0, 0, -10), Color(1.0, 1.0, 1.0))
 
-    result = lighting(m, light, pos, eye, normal, object = Sphere())
+    result = lighting(m, light, pos, eye, normal, object=Sphere())
 
     assert result.arrayize() == approx(Color(1.0, 1.0, 1.0).arrayize(), abs=EPSILON)
 
@@ -56,7 +56,7 @@ def test_lighting_with_the_eye_opposite_surface_light_offset_45():
 
     light = Light(Point(0, 10, -10), Color(1.0, 1.0, 1.0))
 
-    result = lighting(m, light, pos, eye, normal, object = Sphere())
+    result = lighting(m, light, pos, eye, normal, object=Sphere())
 
     assert result.arrayize() == approx(
         Color(0.7364, 0.7364, 0.7364).arrayize(), abs=EPSILON
@@ -72,7 +72,7 @@ def test_with_eye_in_the_path_of_the_reflection_vector():
 
     light = Light(Point(0, 10, -10), Color(1.0, 1.0, 1.0))
 
-    result = lighting(m, light, pos, eye, normal, object = Sphere())
+    result = lighting(m, light, pos, eye, normal, object=Sphere())
 
     assert result.arrayize() == approx(
         Color(1.6364, 1.6364, 1.6364).arrayize(), abs=EPSILON
@@ -88,7 +88,7 @@ def test_lighting_with_the_light_behind_the_surface():
 
     light = Light(Point(0, 0, 10), Color(1.0, 1.0, 1.0))
 
-    result = lighting(m, light, pos, eye, normal, object = Sphere())
+    result = lighting(m, light, pos, eye, normal, object=Sphere())
 
     assert result.arrayize() == approx(Color(0.1, 0.1, 0.1).arrayize(), abs=EPSILON)
 
@@ -102,6 +102,6 @@ def test_lighting_with_the_surface_in_shadow():
 
     light = Light(Point(0, 0, -10), Color(1.0, 1.0, 1.0))
 
-    result = lighting(m, light, pos, eye, normal, in_shadow=True, object = Sphere())
+    result = lighting(m, light, pos, eye, normal, in_shadow=True, object=Sphere())
 
     assert result.arrayize() == approx(Color(0.1, 0.1, 0.1).arrayize(), abs=EPSILON)

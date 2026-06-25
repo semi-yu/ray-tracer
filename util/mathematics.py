@@ -31,7 +31,7 @@ class Quadruple:
     @property
     def w(self):
         return self._coord[3]
-    
+
     def __repr__(self):
         return f"coord ({self._coord})"
 
@@ -51,7 +51,7 @@ class Vector(Quadruple):
     def __mul__(self, other):
         if isinstance(other, (float, int, np.number)):
             return Vector().set_coord(self._coord * other)
-        
+
     def dot(self, other) -> float:
         return np.dot(self._coord, other.coord)
 

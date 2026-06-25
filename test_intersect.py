@@ -184,37 +184,29 @@ def test_the_hit_should_offset_the_point():
     assert comps.over_point.z < -EPSILON / 2
     assert comps.point.z > comps.over_point.z
 
+
 def test_precomputing_the_reflection_vector():
     s = Plane()
 
     r = Ray(Point(0, 1, -1), Vector(0, -np.sqrt(2) / 2, np.sqrt(2) / 2))
-    
+
     i = Intersection(np.sqrt(2), s)
 
     comps = prepare_computation(i, r)
 
-    assert comps.reflect.coord == approx(Vector(0, np.sqrt(2) / 2, np.sqrt(2) / 2).coord)
+    assert comps.reflect.coord == approx(
+        Vector(0, np.sqrt(2) / 2, np.sqrt(2) / 2).coord
+    )
+
 
 def test_finding_n1_and_n2_at_various_intersections():
-    a = glass_sphere() \
-        .set_transform(
-            Transformation()
-            .scale(2, 2, 2)
-        )
+    a = glass_sphere().set_transform(Transformation().scale(2, 2, 2))
     a.material.set_refractive_index(1.5)
 
-    b = glass_sphere() \
-        .set_transform(
-            Transformation()
-            .translate(0, 0, -0.25)
-        )
+    b = glass_sphere().set_transform(Transformation().translate(0, 0, -0.25))
     b.material.set_refractive_index(2.0)
 
-    c = glass_sphere() \
-        .set_transform(
-            Transformation()
-            .translate(0, 0, 0.25)
-        )
+    c = glass_sphere().set_transform(Transformation().translate(0, 0, 0.25))
     c.material.set_refractive_index(2.5)
 
     r = Ray(Point(0, 0, -4), Vector(0, 0, 1))
@@ -231,10 +223,10 @@ def test_finding_n1_and_n2_at_various_intersections():
     ns = [
         (1.0, 1.5),
         (1.5, 2.0),
-        (2.0, 2.5), 
-        (2.5, 2.5), 
-        (2.5, 1.5),  
-        (1.5, 1.0), 
+        (2.0, 2.5),
+        (2.5, 2.5),
+        (2.5, 1.5),
+        (1.5, 1.0),
     ]
 
     n_ans = len(ns)
@@ -242,18 +234,16 @@ def test_finding_n1_and_n2_at_various_intersections():
     for idx in range(n_ans):
         comps = prepare_computation(xs[idx], r, xs)
         n1, n2 = ns[idx]
-        
+
         assert comps.n1 == n1
         assert comps.n2 == n2
+
 
 def test_the_under_point_is_offset_below_the_surface():
     r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
 
-    s = glass_sphere() \
-        .set_transform(
-            Transformation().translate(0, 0, 1)
-        )
-    
+    s = glass_sphere().set_transform(Transformation().translate(0, 0, 1))
+
     i = Intersection(5, s)
     xs = [i]
 
@@ -262,15 +252,13 @@ def test_the_under_point_is_offset_below_the_surface():
     assert comps.under_point.z > EPSILON / 2
     assert comps.point.z < comps.under_point.z
 
+
 def test_the_schlick_approximation_under_total_internal_reflection():
     s = glass_sphere()
 
     r = Ray(Point(0, 0, np.sqrt(2) / 2), Vector(0, 1, 0))
 
-    xs = [
-        Intersection(-np.sqrt(2) / 2, s),
-        Intersection( np.sqrt(2) / 2, s)
-    ]
+    xs = [Intersection(-np.sqrt(2) / 2, s), Intersection(np.sqrt(2) / 2, s)]
 
     comps = prepare_computation(xs[1], r, xs)
 
@@ -278,21 +266,20 @@ def test_the_schlick_approximation_under_total_internal_reflection():
 
     assert reflectance == approx(1.0)
 
+
 def test_the_schlick_approximation_with_a_perpendicular_viewing_angle():
     s = glass_sphere()
 
     r = Ray(Point(0, 0, 0), Vector(0, 1, 0))
 
-    xs = [
-        Intersection(-1, s),
-        Intersection( 1, s)
-    ]
+    xs = [Intersection(-1, s), Intersection(1, s)]
 
     comps = prepare_computation(xs[1], r, xs)
 
     reflectance = schlick(comps)
 
     assert reflectance == approx(0.04)
+
 
 def test_the_schlick_approximation_with_small_angle_and_n2_larger_than_n1():
     s = glass_sphere()

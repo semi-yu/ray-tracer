@@ -9,6 +9,7 @@ from light import Light, lighting
 
 from sphere import Sphere, glass_sphere
 
+
 def test_default_material():
     m = Material()
 
@@ -29,16 +30,22 @@ def test_lighting_with_a_pattern_applied():
 
     light = Light(Point(0, 0, -10.0), Color(1.0, 1.0, 1.0))
 
-    c1 = lighting(m, light, Point(0.9, 0, 0), eye_vector, normal_vector, False, object = Sphere())
-    c2 = lighting(m, light, Point(1.1, 0, 0), eye_vector, normal_vector, False, object = Sphere())
+    c1 = lighting(
+        m, light, Point(0.9, 0, 0), eye_vector, normal_vector, False, object=Sphere()
+    )
+    c2 = lighting(
+        m, light, Point(1.1, 0, 0), eye_vector, normal_vector, False, object=Sphere()
+    )
 
     assert c1.arrayize() == approx(Color(1.0, 1.0, 1.0).arrayize(), abs=EPSILON)
     assert c2.arrayize() == approx(Color(0.0, 0.0, 0.0).arrayize(), abs=EPSILON)
 
+
 def test_reflectivity_for_the_default_material():
     m = Material()
-    
+
     assert m.reflective == approx(0.0)
+
 
 def test_transparency_and_refractive_index_for_the_default_material():
     m = Material()
@@ -46,7 +53,8 @@ def test_transparency_and_refractive_index_for_the_default_material():
     assert m.transparency == approx(0.0)
     assert m.refractive_index == approx(1.0)
 
-def test_a_helper_for_producing_a_sphere_with_a_glassy_material():    
+
+def test_a_helper_for_producing_a_sphere_with_a_glassy_material():
     s = glass_sphere()
 
     assert s.material.transparency == approx(1.0)
