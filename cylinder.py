@@ -25,3 +25,6 @@ class Cylinder(Shape):
         t2 = (-b + np.sqrt(disc)) / (2 * a)
 
         return [Intersection(t1, self), Intersection(t2, self)]
+
+    def local_normal_at(self, point: Point) -> Vector:
+        return Vector(point.x, 0, point.z)

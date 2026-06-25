@@ -37,3 +37,21 @@ def test_a_ray_hits_a_cylinder():
         assert len(xs) == 2
         assert xs[0].t == approx(t1)
         assert xs[1].t == approx(t2)
+
+def test_normal_vector_on_a_cylinder():
+    s = Cylinder()
+
+    defined_n = [
+        (Point( 1,  0,  0), Vector( 1, 0,  0), ),
+        (Point( 0,  5, -1), Vector( 0, 0, -1), ),
+        (Point( 0, -2,  1), Vector( 0, 0,  1), ),
+        (Point(-1,  1,  0), Vector(-1, 0,  0), ),
+    ]
+
+    for point, normal in defined_n:
+        n = s.local_normal_at(point)
+
+        print(point, normal, n)
+
+        assert normal.coord == approx(n.coord)
+
