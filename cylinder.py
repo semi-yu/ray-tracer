@@ -1,7 +1,7 @@
 import math 
 import numpy as np
 
-from util.mathematics import Vector, Point
+from util.mathematics import Vector, Point, EPSILON
 
 from entities.ray import Ray
 from intersect import Intersection
@@ -52,8 +52,16 @@ class Cylinder(Shape):
         return xs
 
     def local_normal_at(self, point: Point) -> Vector:
+        dist = point.x * point.x + point.z * point.z
+        
+        if dist < 1.0 and point.y >= self.maximum - EPSILON:
+            return Vector(0,  1, 0)
+        
+        if dist < 1.0 and point.y <= self.minimum + EPSILON:
+            return Vector(0, -1, 0)
+
         return Vector(point.x, 0, point.z)
-    
+
     def intersect_caps(self, ray: Ray, xs: list[Intersection]) -> None:
         if not self._closed or math.isclose(ray.direction.y, 0.0):
             return

@@ -102,3 +102,20 @@ def test_intersecting_the_caps_of_a_closed_cylinder():
         xs = s.local_intersect(ray)
 
         assert len(xs) == count
+
+def test_the_normal_vector_on_a_cylinders_end_caps():
+    s = Cylinder(minimum = 1, maximum = 2, closed = True)
+    
+    defined_normal = [
+        (Point(  0, 1,   0), Vector(0, -1, 0), ),
+        (Point(0.5, 1,   0), Vector(0, -1, 0), ),
+        (Point(  0, 1, 0.5), Vector(0, -1, 0), ),
+        (Point(  0, 2,   0), Vector(0,  1, 0), ),
+        (Point(0.5, 2,   0), Vector(0,  1, 0), ),
+        (Point(  0, 2, 0.5), Vector(0,  1, 0), ),
+    ]
+
+    for point, normal in defined_normal:
+        n = s.local_normal_at(point)
+
+        assert normal.coord == approx(n.coord)
