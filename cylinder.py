@@ -9,6 +9,10 @@ from intersect import Intersection
 from shape import Shape
 
 class Cylinder(Shape):
+    def __init__(self, minimum: float = float('-inf'), maximum: float = float('inf')):
+        self._minimum = minimum
+        self._maximum = maximum
+
     def local_intersect(self, ray: Ray) -> list[Intersection]:
         a = ray.direction.x * ray.direction.x + ray.direction.z * ray.direction.z
 
@@ -28,3 +32,11 @@ class Cylinder(Shape):
 
     def local_normal_at(self, point: Point) -> Vector:
         return Vector(point.x, 0, point.z)
+
+    @property
+    def minimum(self): 
+        return self._minimum
+
+    @property
+    def maximum(self):
+        return self._maximum

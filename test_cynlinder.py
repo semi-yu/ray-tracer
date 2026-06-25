@@ -55,3 +55,8 @@ def test_normal_vector_on_a_cylinder():
 
         assert normal.coord == approx(n.coord)
 
+def test_the_defulat_minimum_and_maximum_for_a_cylinder():
+    s = Cylinder()
+
+    assert s.minimum == approx(float('-inf'))
+    assert s.maximum == approx(float('inf'))
