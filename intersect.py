@@ -11,6 +11,10 @@ class Intersection:
         self._t = t
         self._object = object
 
+    def __eq__(self, other):
+        return self._t == other.t \
+           and self._object == other.object
+
     @property
     def t(self):
         return self._t
