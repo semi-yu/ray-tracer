@@ -23,6 +23,8 @@ class Cylinder(Shape):
         maximum: float = float("inf"),
         closed=False,
     ):
+        super().__init__()
+
         self._minimum = minimum
         self._maximum = maximum
         self._closed = closed

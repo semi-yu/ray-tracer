@@ -9,6 +9,12 @@ class Group:
         self._transform = Transformation()
         self._shapes = []
 
+        self._parent = None
+
+    def set_parent(self, group):
+        self._parent = group
+        return self
+
     def add_child(self, child):
         self._shapes.append(child)
         child.set_parent(self)
@@ -45,3 +51,7 @@ class Group:
     @property
     def shapes(self):
         return self._shapes
+
+    @property
+    def parent(self):
+        return self._parent

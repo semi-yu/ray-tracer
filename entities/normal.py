@@ -4,12 +4,24 @@ from shape import Shape
 from util.mathematics import Vector, Point
 
 
-def normal_at(shape: Shape, point: Point) -> Vector:
-    local_point = Point().set_coord(np.linalg.inv(shape.transform.matrix) @ point.coord)
+def normal_at(shape: Shape, world_point: Point) -> Vector:
+    local_point = world_to_object(shape, world_point)
     local_normal = shape.local_normal_at(local_point)
+    
+    return normal_to_world(shape, local_normal)
 
-    world_normal = np.linalg.inv(shape.transform.matrix).T @ local_normal.coord
+def normal_to_world(shape: Shape, normal: Vector):
+    normal_coord = shape.transform.inverse().matrix.T @ normal.coord
 
-    result = Vector().set_coord(world_normal)
+    normal = Vector().set_coord(normal_coord).normalize()
 
-    return result.normalize()
+    if shape.parent is not None:
+        normal = normal_to_world(shape.parent, normal)
+    
+    return normal
+
+def world_to_object(shape, point: Point):
+    if shape.parent is not None:
+        point = world_to_object(shape.parent, point)
+
+    return Point().set_coord(shape.transform.inverse().matrix @ point.coord)

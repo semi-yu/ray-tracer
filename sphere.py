@@ -12,6 +12,8 @@ from shape import Shape
 
 class Sphere(Shape):
     def __init__(self, center: Point = Point(0, 0, 0), radius: float = 1.0):
+        super().__init__()
+
         self._center = center
         self._radius = radius
 

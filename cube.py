@@ -28,6 +28,8 @@ def check_axis(origin: Point, direction: Vector):
 
 class Cube(Shape):
     def __init__(self):
+        super().__init__()
+
         self._transformation = Transformation()
         self._material = Material()
 
