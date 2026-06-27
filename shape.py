@@ -6,6 +6,8 @@ from material import Material
 from util.transformation import Transformation
 from util.mathematics import Vector, Point
 
+from group import Group
+
 
 class Shape:
     def __init__(self):
@@ -23,6 +25,11 @@ class Shape:
     def set_material(self, material: Material):
         self._material = material
         return self
+    
+    def set_parent(self, group: Group):
+        if not isinstance(group, Group):
+            raise Exception("A parent must be a group")
+        self._parent = group
 
     def local_intersect(self, ray: Ray):
         self._saved_ray = ray
