@@ -51,3 +51,8 @@ def test_assigning_material():
     assert s.material.diffuse == approx(m.diffuse)
     assert s.material.specular == approx(m.specular)
     assert s.material.shininess == approx(m.shininess)
+
+def test_shape_has_a_parent_attribute():
+    s = Shape()
+
+    assert s.parent is None

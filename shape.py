@@ -14,6 +14,8 @@ class Shape:
 
         self._saved_ray = None
 
+        self._parent = None
+
     def set_transform(self, transform: Transformation):
         self._transformation = transform
         return self
@@ -41,3 +43,7 @@ class Shape:
     @property
     def saved_ray(self):
         return self._saved_ray
+
+    @property
+    def parent(self):
+        return self._parent
