@@ -1,12 +1,12 @@
 from util.transformation import Transformation
 
-from entities.ray import Ray
+from entities.ray import Ray, transform as transform_ray
 
 from intersect import intersect, Intersection
 
 class Group:
     def __init__(self):
-        self._transformation = Transformation()
+        self._transform = Transformation()
         self._shapes = []
 
     def add_child(self, child):
@@ -20,11 +20,17 @@ class Group:
     def __contains__(self, member):
         return member in self._shapes
     
+    def set_transform(self, transform: Transformation):
+        self._transform = transform
+        return self
+    
     def local_intersect(self, ray: Ray) -> list[Intersection]:
         result = set()
 
+        tray = transform_ray(ray, self._transform.inverse().matrix)
+
         for shape in self._shapes:
-            for it in intersect(shape, ray):
+            for it in intersect(shape, tray):
                 result.add((it.t, it.object))
 
         result = [Intersection(t, ob) for t, ob in result]
@@ -33,8 +39,8 @@ class Group:
         return result
 
     @property
-    def transformation(self):
-        return self._transformation
+    def transform(self):
+        return self._transform
 
     @property
     def shapes(self):

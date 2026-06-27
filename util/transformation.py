@@ -51,6 +51,10 @@ class Transformation:
     def __init__(self):
         self._matrix = np.identity(4)
 
+    def set_matrix(self, matrix):
+        self._matrix = matrix
+        return self
+
     def translate(self, x: float, y: float, z: float):
         self._matrix = translate(x, y, z) @ self._matrix
         return self
@@ -68,7 +72,8 @@ class Transformation:
         return self
 
     def inverse(self):
-        return np.linalg.inv(self._matrix)
+        return Transformation() \
+               .set_matrix(np.linalg.inv(self._matrix))
 
     @property
     def matrix(self):

@@ -14,7 +14,7 @@ from sphere import Sphere
 def test_creating_a_group():
     g = Group()
 
-    assert g.transformation.matrix == approx(np.identity(4))
+    assert g.transform.matrix == approx(np.identity(4))
     assert len(g.shapes) == 0
 
 def test_adding_a_child_to_a_group():
@@ -53,4 +53,24 @@ def test_intersecting_a_ray_with_a_nonempty_group():
     assert xs[1].object == s2
     assert xs[2].object == s1
     assert xs[3].object == s1
+
+def test_intersecting_a_transformed_group():
+    g = Group() \
+        .set_transform(
+            Transformation()
+            .scale(2, 2, 2)
+        )
     
+    s = Sphere() \
+        .set_transform(
+            Transformation()
+            .translate(5, 0, 0)
+        )
+
+    g.add_child(s)
+
+    r = Ray(Point(10, 0, -10), Vector(0, 0, 1))
+
+    xs = g.local_intersect(r)
+
+    assert len(xs) == 2
