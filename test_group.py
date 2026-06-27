@@ -11,6 +11,8 @@ from shape import Shape
 from util.transformation import Transformation
 from sphere import Sphere
 
+from intersect import intersect
+
 def test_creating_a_group():
     g = Group()
 
@@ -71,6 +73,6 @@ def test_intersecting_a_transformed_group():
 
     r = Ray(Point(10, 0, -10), Vector(0, 0, 1))
 
-    xs = g.local_intersect(r)
+    xs = intersect(g, r)
 
     assert len(xs) == 2

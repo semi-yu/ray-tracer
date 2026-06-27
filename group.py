@@ -1,6 +1,6 @@
 from util.transformation import Transformation
 
-from entities.ray import Ray, transform as transform_ray
+from entities.ray import Ray
 
 from intersect import intersect, Intersection
 
@@ -33,10 +33,8 @@ class Group:
     def local_intersect(self, ray: Ray) -> list[Intersection]:
         result = set()
 
-        tray = transform_ray(ray, self._transform.inverse().matrix)
-
         for shape in self._shapes:
-            for it in intersect(shape, tray):
+            for it in intersect(shape, ray):
                 result.add((it.t, it.object))
 
         result = [Intersection(t, ob) for t, ob in result]
