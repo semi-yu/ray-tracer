@@ -33,7 +33,7 @@ class Quadruple:
         return self._coord[3]
 
     def __repr__(self):
-        return f"coord ({self._coord})"
+        return f"({self._coord})"
 
 
 class Vector(Quadruple):
@@ -55,6 +55,9 @@ class Vector(Quadruple):
     def dot(self, other) -> float:
         return np.dot(self._coord, other.coord)
 
+    def cross(self, other):
+        return Vector().set_coord(np.cross(self._coord[:3], other.coord[:3]))
+
     def normalize(self):
         mag = np.linalg.norm(self._coord)
 
@@ -72,6 +75,10 @@ class Vector(Quadruple):
 class Point(Quadruple):
     def __init__(self, x=0, y=0, z=0):
         super().__init__(x, y, z, 1)
+
+    def __sub__(self, other) -> Vector:
+        result = self.coord - other.coord
+        return Vector().set_coord(result)
 
     def set_coord(self, coord):
         self._coord = np.array([coord[0], coord[1], coord[2], 1.0])
