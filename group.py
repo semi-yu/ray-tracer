@@ -20,6 +20,9 @@ class Group:
         child.set_parent(self)
         return self
     
+    def __getitem__(self, key: int):
+        return self._shapes[key]
+    
     def __len__(self):
         return len(self._shapes)
 
