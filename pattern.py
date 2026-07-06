@@ -80,4 +80,6 @@ class CheckerPattern(Pattern):
         self._a = a
         self._b = b
 
-    def pattern_at(self, point: Point) -> Color: ...
+    def pattern_at(self, point: Point) -> Color:
+        total = np.floor(point.x) + np.floor(point.y) + np.floor(point.z)
+        return self._a if total % 2 == 0 else self._b
