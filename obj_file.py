@@ -49,7 +49,12 @@ class Parser:
     @property
     def default_group(self):
         return self._default_group
+    
+def read_obj(path: str) -> list[str]:
+    with open(path, "r") as f:
+        content = f.read()
 
+    return content.split('\n')
 
 def parse_obj(content) -> tuple[list, int]:
     def fan_triangulation(vertices):
@@ -64,14 +69,16 @@ def parse_obj(content) -> tuple[list, int]:
     data = Parser()
 
     for line in content:
+        if line == '': continue
+
         preface = line[0]
 
         if preface == "v":
-            x, y, z = map(float, line.split(' ')[1:])
+            x, y, z = map(float, line.split()[1:])
             data.add_vertices(Point(x, y, z))
 
         elif preface == "f":
-            indices = list(map(int, line.split(' ')[1:]))
+            indices = list(map(int, line.split()[1:]))
 
             vertices = [data.vertices[i] for i in indices]
             shapes = fan_triangulation(vertices)

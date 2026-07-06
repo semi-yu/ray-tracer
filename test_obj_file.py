@@ -100,8 +100,6 @@ def test_triangles_in_groups():
 
     parser = parse_obj(content)
 
-    print(parser.group)
-
     g1 = parser[1]
     g2 = parser[2]
 
