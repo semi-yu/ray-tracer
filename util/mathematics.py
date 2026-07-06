@@ -43,12 +43,20 @@ class Vector(Quadruple):
     def set_coord(self, coord):
         self._coord = np.array([coord[0], coord[1], coord[2], 0.0])
         return self
+    
+    def __add__(self, other):
+        if isinstance(other, Vector):
+            return Vector().set_coord(self._coord + other.coord)
 
     def __sub__(self, other):
         if isinstance(other, Vector):
             return Vector().set_coord(self._coord - other.coord)
 
     def __mul__(self, other):
+        if isinstance(other, (float, int, np.number)):
+            return Vector().set_coord(self._coord * other)
+        
+    def __rmul__(self, other):
         if isinstance(other, (float, int, np.number)):
             return Vector().set_coord(self._coord * other)
 
