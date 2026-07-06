@@ -61,7 +61,7 @@ class Cylinder(Shape):
 
         return xs
 
-    def local_normal_at(self, point: Point) -> Vector:
+    def local_normal_at(self, point: Point, hit = None) -> Vector:
         dist = point.x * point.x + point.z * point.z
 
         if dist < 1.0 and point.y >= self.maximum - EPSILON:

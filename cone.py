@@ -79,7 +79,7 @@ class Cone(Shape):
         if check_cap(ray, t, self.maximum):
             xs.append(Intersection(t, self))
 
-    def local_normal_at(self, point: Point) -> Vector:
+    def local_normal_at(self, point: Point, hit = None) -> Vector:
         dist = point.x**2 + point.z**2
 
         if dist < abs(point.y) and point.y >= self.maximum - 1e-5:

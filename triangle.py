@@ -3,7 +3,7 @@ import math
 from shape import Shape
 
 from entities.ray import Ray
-from intersect import Intersection
+from intersect import UVIntersection
 from util.mathematics import Vector, Point
 
 class Triangle(Shape):
@@ -22,7 +22,7 @@ class Triangle(Shape):
     def local_normal_at(self, point: Point) -> Vector:
         return self._normal
     
-    def local_intersect(self, ray: Ray) -> list[Intersection]:
+    def local_intersect(self, ray: Ray) -> list[UVIntersection]:
         direct_cross = ray.direction.cross(self._e2)
 
         determinant = self._e1.dot(direct_cross)
@@ -39,7 +39,7 @@ class Triangle(Shape):
         if v < 0 or  (u + v) > 1: return []
 
         t = f * self.e2.dot(edge_cross)
-        return [Intersection(t, self)]
+        return [UVIntersection(t, self, u, v)]
 
     @property
     def p1(self):

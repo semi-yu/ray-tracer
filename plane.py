@@ -9,7 +9,7 @@ class Plane(Shape):
     def __init__(self):
         super().__init__()
 
-    def local_normal_at(self, point: Point) -> Vector:
+    def local_normal_at(self, point: Point, hit = None) -> Vector:
         return Vector(0, 1, 0)
 
     def local_intersect(self, ray: Ray) -> list[Vector]:

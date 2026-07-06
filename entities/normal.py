@@ -4,9 +4,9 @@ from shape import Shape
 from util.mathematics import Vector, Point
 
 
-def normal_at(shape: Shape, world_point: Point) -> Vector:
+def normal_at(shape: Shape, world_point: Point, hit = None) -> Vector:
     local_point = world_to_object(shape, world_point)
-    local_normal = shape.local_normal_at(local_point)
+    local_normal = shape.local_normal_at(local_point, hit)
     
     return normal_to_world(shape, local_normal)
 

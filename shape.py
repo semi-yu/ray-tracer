@@ -36,7 +36,7 @@ class Shape:
 
         return
 
-    def local_normal_at(self, point: Point) -> Vector:
+    def local_normal_at(self, point: Point, hit = None) -> Vector:
         return Vector().set_coord(point.coord)
 
     @property

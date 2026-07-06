@@ -46,7 +46,7 @@ class Sphere(Shape):
                 Intersection((-b + np.sqrt(discriminant)) / (2 * a), self),
             ]
 
-    def local_normal_at(self, point: Point) -> Vector:
+    def local_normal_at(self, point: Point, hit = None) -> Vector:
         return Vector().set_coord(point.coord)
 
     @property
