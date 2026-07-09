@@ -2,7 +2,7 @@ from pytest import approx
 
 from obj_file import parse_obj, obj_to_group
 
-from util.mathematics import Point
+from util.mathematics import Vector, Point
 
 
 def test_ignoring_unrecognized_lines():
@@ -142,3 +142,52 @@ def test_converting_an_obj_file_to_a_group():
     assert t2.p1.coord == approx(obj.vertices[1].coord)
     assert t2.p2.coord == approx(obj.vertices[3].coord)
     assert t2.p3.coord == approx(obj.vertices[4].coord)
+
+def test_vertex_normal_records():
+    content = [
+        "vn 0 0 1",
+        "vn 0.707 0 -0.707",
+        "vn 1 2 3"
+    ]
+
+    obj = parse_obj(content)
+
+    assert obj.normals[1].coord == approx(Vector(0, 0, 1).coord)
+    assert obj.normals[2].coord == approx(Vector(0.707, 0, -0.707).coord)
+    assert obj.normals[3].coord == approx(Vector(1, 2, 3).coord)
+
+def test_faces_with_normals():
+    content = [
+        "v 0 1 0",
+        "v -1 0 0",
+        "v 1 0 0",
+
+        "vn -1 0 0",
+        "vn 1 0 0",
+        "vn 0 1 0",
+
+        "f 1//3 2//1 3//2",
+        "f 1/0/3 2/102/1 3/14/2"
+    ]
+
+    obj = parse_obj(content)
+    g = obj.default_group
+
+    t1 = g[0]
+    t2 = g[1]
+
+    assert t1.p1.coord == approx(obj.vertices[1].coord)
+    assert t1.p2.coord == approx(obj.vertices[2].coord)
+    assert t1.p3.coord == approx(obj.vertices[3].coord)
+
+    assert t1.n1.coord == approx(obj.normals[3].coord)
+    assert t1.n2.coord == approx(obj.normals[1].coord)
+    assert t1.n3.coord == approx(obj.normals[2].coord)
+
+    assert t2.p1.coord == approx(t1.p1.coord)
+    assert t2.p2.coord == approx(t1.p2.coord)
+    assert t2.p3.coord == approx(t1.p3.coord)
+
+    assert t2.n1.coord == approx(t1.n1.coord)
+    assert t2.n2.coord == approx(t1.n2.coord)
+    assert t2.n3.coord == approx(t1.n3.coord)
