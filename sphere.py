@@ -1,6 +1,6 @@
 import numpy as np
 
-from intersect import Intersection
+from intersect import UVIntersection
 
 from entities.ray import Ray
 from material import Material
@@ -42,8 +42,8 @@ class Sphere(Shape):
             return []
         else:
             return [
-                Intersection((-b - np.sqrt(discriminant)) / (2 * a), self),
-                Intersection((-b + np.sqrt(discriminant)) / (2 * a), self),
+                UVIntersection((-b - np.sqrt(discriminant)) / (2 * a), self),
+                UVIntersection((-b + np.sqrt(discriminant)) / (2 * a), self),
             ]
 
     def local_normal_at(self, point: Point, hit = None) -> Vector:

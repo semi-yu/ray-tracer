@@ -1,4 +1,4 @@
-from intersect import Intersection
+from intersect import UVIntersection
 
 from entities.ray import Ray
 from util.mathematics import Vector, Point, EPSILON
@@ -12,9 +12,9 @@ class Plane(Shape):
     def local_normal_at(self, point: Point, hit = None) -> Vector:
         return Vector(0, 1, 0)
 
-    def local_intersect(self, ray: Ray) -> list[Vector]:
+    def local_intersect(self, ray: Ray) -> list[UVIntersection]:
         if abs(ray.direction.y) < EPSILON:
             return []
 
         t = -ray.origin.y / ray.direction.y
-        return [Intersection(t, self)]
+        return [UVIntersection(t, self)]

@@ -3,8 +3,7 @@ from pytest import approx
 from entities.ray import Ray
 from util.mathematics import Vector, Point
 
-from triangle import Triangle
-from smoothing import SmoothTriangle
+from triangle import Triangle, SmoothTriangle
 from intersect import UVIntersection
 
 from computation import prepare_computation

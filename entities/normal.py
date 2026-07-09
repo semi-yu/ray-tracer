@@ -1,10 +1,11 @@
 import numpy as np
 
+from intersect import UVIntersection
 from shape import Shape
 from util.mathematics import Vector, Point
 
 
-def normal_at(shape: Shape, world_point: Point, hit = None) -> Vector:
+def normal_at(shape: Shape, world_point: Point, hit: UVIntersection = None) -> Vector:
     local_point = world_to_object(shape, world_point)
     local_normal = shape.local_normal_at(local_point, hit)
     

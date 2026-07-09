@@ -4,7 +4,7 @@ import numpy as np
 from util.mathematics import Vector, Point, EPSILON
 
 from entities.ray import Ray
-from intersect import Intersection
+from intersect import UVIntersection
 
 from shape import Shape
 
@@ -29,7 +29,7 @@ class Cylinder(Shape):
         self._maximum = maximum
         self._closed = closed
 
-    def local_intersect(self, ray: Ray) -> list[Intersection]:
+    def local_intersect(self, ray: Ray) -> list[UVIntersection]:
         a = ray.direction.x * ray.direction.x + ray.direction.z * ray.direction.z
 
         xs = []
@@ -51,11 +51,11 @@ class Cylinder(Shape):
 
             y0 = ray.origin.y + t1 * ray.direction.y
             if self._minimum < y0 < self._maximum:
-                xs.append(Intersection(t1, self))
+                xs.append(UVIntersection(t1, self))
 
             y1 = ray.origin.y + t2 * ray.direction.y
             if self._minimum < y1 < self._maximum:
-                xs.append(Intersection(t2, self))
+                xs.append(UVIntersection(t2, self))
 
         self.intersect_caps(ray, xs)
 
@@ -72,17 +72,17 @@ class Cylinder(Shape):
 
         return Vector(point.x, 0, point.z)
 
-    def intersect_caps(self, ray: Ray, xs: list[Intersection]) -> None:
+    def intersect_caps(self, ray: Ray, xs: list[UVIntersection]) -> None:
         if not self._closed or math.isclose(ray.direction.y, 0.0):
             return
 
         t = (self.minimum - ray.origin.y) / ray.direction.y
         if check_cap(ray, t):
-            xs.append(Intersection(t, self))
+            xs.append(UVIntersection(t, self))
 
         t = (self.maximum - ray.origin.y) / ray.direction.y
         if check_cap(ray, t):
-            xs.append(Intersection(t, self))
+            xs.append(UVIntersection(t, self))
 
     @property
     def minimum(self):

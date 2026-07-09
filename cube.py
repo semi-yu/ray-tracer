@@ -1,7 +1,7 @@
 import numpy as np
 
 from util.mathematics import Vector, Point, EPSILON
-from intersect import Intersection
+from intersect import UVIntersection
 from entities.ray import Ray
 from shape import Shape
 
@@ -33,7 +33,7 @@ class Cube(Shape):
         self._transformation = Transformation()
         self._material = Material()
 
-    def local_intersect(self, ray: Ray) -> list[Intersection]:
+    def local_intersect(self, ray: Ray) -> list[UVIntersection]:
         xtmin, xtmax = check_axis(ray.origin.x, ray.direction.x)
         ytmin, ytmax = check_axis(ray.origin.y, ray.direction.y)
         ztmin, ztmax = check_axis(ray.origin.z, ray.direction.z)
@@ -45,11 +45,11 @@ class Cube(Shape):
             return []
 
         return [
-            Intersection(tmin, self),
-            Intersection(tmax, self),
+            UVIntersection(tmin, self),
+            UVIntersection(tmax, self),
         ]
 
-    def local_normal_at(self, point: Point, hit = None) -> Vector:
+    def local_normal_at(self, point: Point, hit: UVIntersection = None) -> Vector:
         maxc = max(abs(point.x), abs(point.y), abs(point.z))
 
         if maxc == abs(point.x):

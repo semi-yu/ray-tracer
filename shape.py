@@ -3,6 +3,8 @@ import numpy as np
 from entities.ray import Ray
 from material import Material
 
+from intersect import UVIntersection
+
 from util.transformation import Transformation
 from util.mathematics import Vector, Point
 
@@ -36,7 +38,7 @@ class Shape:
 
         return
 
-    def local_normal_at(self, point: Point, hit = None) -> Vector:
+    def local_normal_at(self, point: Point, hit: UVIntersection = None) -> Vector:
         return Vector().set_coord(point.coord)
 
     @property

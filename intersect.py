@@ -24,7 +24,7 @@ class Intersection:
         return self._object
 
 class UVIntersection(Intersection):
-    def __init__(self, t: float, object, u: float, v: float):
+    def __init__(self, t: float, object, u: float = None, v: float = None):
         super().__init__(t, object)
         self._u = u
         self._v = v
@@ -38,7 +38,7 @@ class UVIntersection(Intersection):
         return self._v
 
 
-def intersect_world(world, ray) -> list[Intersection]:
+def intersect_world(world, ray) -> list[UVIntersection]:
     result = []
 
     for object in world.objects:

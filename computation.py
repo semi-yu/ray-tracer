@@ -5,7 +5,7 @@ from entities.normal import normal_at
 from entities.ray import Ray, position
 from reflect import reflect
 
-from intersect import Intersection
+from intersect import UVIntersection
 
 
 class Computation:
@@ -83,11 +83,13 @@ class Computation:
 
 
 def prepare_computation(
-    intersection: Intersection, ray: Ray, xs: list[Intersection] = None
+    intersection: UVIntersection, ray: Ray, xs: list[UVIntersection] = None
 ):
     v = Vector()
     v.set_coord(-1 * ray.direction.coord)
     p = position(ray, intersection.t)
+
+    print(type(intersection), type(intersection.object))
 
     n = normal_at(intersection.object, p, intersection)
     is_inside = np.dot(n.coord, v.coord) < 0

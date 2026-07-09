@@ -2,7 +2,7 @@ from util.transformation import Transformation
 
 from entities.ray import Ray
 
-from intersect import intersect, Intersection
+from intersect import intersect, Intersection, UVIntersection
 
 class Group:
     def __init__(self):
@@ -40,7 +40,7 @@ class Group:
             for it in intersect(shape, ray):
                 result.add((it.t, it.object))
 
-        result = [Intersection(t, ob) for t, ob in result]
+        result = [UVIntersection(t, ob) for t, ob in result]
         result.sort(key=lambda s: s.t)
 
         return result
