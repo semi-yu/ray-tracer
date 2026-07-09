@@ -3,6 +3,7 @@ import numpy as np
 from entities.ray import Ray
 from material import Material
 
+from csg import Csg
 from intersect import UVIntersection
 
 from util.transformation import Transformation
@@ -29,8 +30,8 @@ class Shape:
         return self
     
     def set_parent(self, group: Group):
-        if not isinstance(group, Group):
-            raise Exception("A parent must be a group")
+        if not isinstance(group, (Group, Csg)):
+            raise Exception("A parent must be a group or a csg")
         self._parent = group
 
     def local_intersect(self, ray: Ray):
