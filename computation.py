@@ -89,8 +89,6 @@ def prepare_computation(
     v.set_coord(-1 * ray.direction.coord)
     p = position(ray, intersection.t)
 
-    print(type(intersection), type(intersection.object))
-
     n = normal_at(intersection.object, p, intersection)
     is_inside = np.dot(n.coord, v.coord) < 0
 
